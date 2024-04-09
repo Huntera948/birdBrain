@@ -7,14 +7,13 @@ import androidx.room.PrimaryKey;
 public class Vacation {
     @PrimaryKey(autoGenerate = true)
     private int vacationID;
-
     private String vacationName;
-    private double vacationPrice;
+    private String vacationHotel;
 
-    public Vacation(int vacationID, String vacationName, double vacationPrice) {
+    public Vacation(int vacationID, String vacationName, String vacationHotel) {
         this.vacationID = vacationID;
         this.vacationName = vacationName;
-        this.vacationPrice = vacationPrice;
+        this.vacationHotel = vacationHotel;
     }
 
     public int getVacationID() {
@@ -33,12 +32,13 @@ public class Vacation {
         this.vacationName = vacationName;
     }
 
-    public double getVacationPrice() {
-        return vacationPrice;
+    public String getVacationHotel() {
+        return vacationHotel;
     }
 
-    public void setVacationPrice(double vacationPrice) {
-        this.vacationPrice = vacationPrice;
+    public void setVacationHotel(String vacationHotel) {
+        this.vacationHotel = vacationHotel;
     }
+
 }
 

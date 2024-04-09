@@ -25,10 +25,10 @@ import java.util.List;
 
 public class VacationDetails extends AppCompatActivity {
     String name;
-    double price;
+    String vacationHotel;
     int vacationID;
     EditText editName;
-    EditText editPrice;
+    EditText editHotel;
     Repository repository;
     Vacation currentVacation;
     int numExcursions;
@@ -40,10 +40,8 @@ public class VacationDetails extends AppCompatActivity {
         name = getIntent().getStringExtra("name");
         editName = findViewById(R.id.vacationname);
         editName.setText(name);
-        price = getIntent().getDoubleExtra("price", -1.0);
-        editPrice = findViewById(R.id.vacationprice);
-        editPrice.setText(Double.toString(price));
         vacationID = getIntent().getIntExtra("id", -1);
+        editHotel = findViewById(R.id.vacationhotel);
         // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         RecyclerView recyclerView = findViewById(R.id.excursionrecyclerview);
         repository = new Repository(getApplication());
@@ -85,11 +83,13 @@ public class VacationDetails extends AppCompatActivity {
                 if (repository.getAllVacations().size() == 0) vacationID = 1;
                 else
                     vacationID = repository.getAllVacations().get(repository.getAllVacations().size() - 1).getVacationID() + 1;
-                vacation = new Vacation(vacationID, editName.getText().toString(), Double.parseDouble(editPrice.getText().toString()));
+                vacationHotel = editHotel.getText().toString();
+                vacation = new Vacation(vacationID, editName.getText().toString(), vacationHotel);
                 repository.insert(vacation);
             } else {
                 try {
-                    vacation = new Vacation(vacationID, editName.getText().toString(), Double.parseDouble(editPrice.getText().toString()));
+                    vacationHotel = editHotel.getText().toString();
+                    vacation = new Vacation(vacationID, editName.getText().toString(), vacationHotel);
                     repository.update(vacation);
                 } catch (Exception e) {
 

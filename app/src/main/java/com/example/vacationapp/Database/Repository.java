@@ -22,7 +22,7 @@ public class Repository {
     static final ExecutorService databaseExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
     public Repository(Application application) {
-        BicycleDatabaseBuilder db = BicycleDatabaseBuilder.getDatabase(application);
+        VacationDatabaseBuilder db = VacationDatabaseBuilder.getDatabase(application);
         mExcursionDAO = db.excursionDAO();
         mVacationDAO = db.vacationDAO();
     }

@@ -42,7 +42,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Vacation Name" />
+                    android:text="Vacation Title" />
 
                 <EditText
                     android:id="@+id/vacationname"
@@ -57,10 +57,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Vacation Price" />
+                    android:text="Vacation Hotel (Or Place of Stay)" />
 
                 <EditText
-                    android:id="@+id/vacationprice"
+                    android:id="@+id/vacationhotel"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -72,7 +72,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Vacation PriceB" />
+                    android:text="Start Date" />
 
                 <EditText
                     android:id="@+id/vacationpriceB"
@@ -87,7 +87,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Vacation Price C" />
+                    android:text="End Date" />
 
                 <EditText
                     android:id="@+id/vacationpriceC"
