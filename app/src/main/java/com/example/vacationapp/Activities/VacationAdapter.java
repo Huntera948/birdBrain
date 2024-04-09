@@ -18,13 +18,18 @@ import java.util.List;
 
 public class VacationAdapter extends RecyclerView.Adapter<VacationAdapter.VacationViewHolder> {
 
-
     class VacationViewHolder extends RecyclerView.ViewHolder {
         private final TextView vacationItemView;
+        private final TextView hotelItemView;
+        private final TextView startDateItemView;
+        private final TextView endDateItemView;
 
         private VacationViewHolder(View itemView) {
             super(itemView);
             vacationItemView = itemView.findViewById(R.id.textView);
+            hotelItemView = itemView.findViewById(R.id.vacationhotel);
+            startDateItemView = itemView.findViewById(R.id.vacationstartdate);
+            endDateItemView = itemView.findViewById(R.id.vacationenddate);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -63,7 +68,12 @@ public class VacationAdapter extends RecyclerView.Adapter<VacationAdapter.Vacati
         if (mVacations != null) {
             Vacation current = mVacations.get(position);
             String name = current.getVacationName();
-            holder.vacationItemView.setText(name);
+            String hotel = current.getVacationHotel();
+            String startDate = current.getVacationStartDate();
+            String endDate = current.getVacationEndDate();
+            //holder.vacationItemView.setText(name);
+            String displayText = name + "\nHotel: " + hotel + "\nStart Date: " + startDate + "\nEnd Date: " + endDate;
+            holder.vacationItemView.setText(displayText);
         } else {
             holder.vacationItemView.setText("No vacation name");
         }

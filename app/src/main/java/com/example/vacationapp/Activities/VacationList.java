@@ -10,11 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.vacationapp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import com.example.vacationapp.Database.Repository;
 import com.example.vacationapp.Entities.Vacation;
-import com.example.vacationapp.R;
 
 import java.util.List;
 

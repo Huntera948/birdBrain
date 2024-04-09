@@ -30,8 +30,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_margin="15dp"
             android:layout_height="wrap_content"
+            android:layout_margin="15dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -49,6 +49,7 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -64,6 +65,7 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,6 +81,7 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -94,6 +97,7 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -109,6 +113,7 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -124,6 +129,7 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -146,8 +152,8 @@
         android:id="@+id/excursionrecyclerview"
         android:layout_width="409dp"
         android:layout_height="464dp"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="201dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollview"/>
+        app:layout_constraintTop_toBottomOf="@+id/scrollview"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="201dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,17 +8,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
+import com.example.vacationapp.Database.Repository;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vacationapp.Entities.Excursion;
+import com.example.vacationapp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import com.example.vacationapp.Database.Repository;
+
 import com.example.vacationapp.Entities.Vacation;
-import com.example.vacationapp.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +46,15 @@ public class VacationDetails extends AppCompatActivity {
         editName.setText(name);
         vacationID = getIntent().getIntExtra("id", -1);
         editHotel = findViewById(R.id.vacationhotel);
+        vacationHotel = getIntent().getStringExtra("hotel");
+        editHotel = findViewById(R.id.vacationhotel);
+        editHotel.setText(vacationHotel);
+        vacationStartDate = getIntent().getStringExtra("vacationStartDate");
         editStartDate = findViewById(R.id.vacationstartdate);
+        editStartDate.setText(vacationStartDate);
+        vacationEndDate = getIntent().getStringExtra("vacationEndDate");
         editEndDate = findViewById(R.id.vacationenddate);
+        editEndDate.setText(vacationEndDate);
         // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         RecyclerView recyclerView = findViewById(R.id.excursionrecyclerview);
         repository = new Repository(getApplication());
@@ -92,14 +99,14 @@ public class VacationDetails extends AppCompatActivity {
                 vacationHotel = editHotel.getText().toString();
                 vacationStartDate = editStartDate.getText().toString();
                 vacationEndDate = editEndDate.getText().toString();
-                vacation = new Vacation(vacationID, editName.getText().toString(), vacationHotel, vacationStartDate, vacationEndDate);
+                vacation = new Vacation(vacationID, editName.getText().toString(), editHotel.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString());
                 repository.insert(vacation);
             } else {
                 try {
                     vacationHotel = editHotel.getText().toString();
                     vacationStartDate = editStartDate.getText().toString();
                     vacationEndDate = editEndDate.getText().toString();
-                    vacation = new Vacation(vacationID, editName.getText().toString(), vacationHotel, vacationStartDate, vacationEndDate);
+                    vacation = new Vacation(vacationID, editName.getText().toString(), editHotel.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString());
                     repository.update(vacation);
                 } catch (Exception e) {
 

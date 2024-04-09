@@ -17,6 +17,7 @@
             android:name=".Activities.MyReceiver"
             android:enabled="true"
             android:exported="true"></receiver>
+
         <activity
             android:name=".Activities.ExcursionDetails"
             android:exported="false"
