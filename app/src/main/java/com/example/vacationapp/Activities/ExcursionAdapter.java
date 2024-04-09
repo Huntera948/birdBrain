@@ -33,7 +33,6 @@ public class ExcursionAdapter extends RecyclerView.Adapter<ExcursionAdapter.Excu
                     Intent intent = new Intent(context, ExcursionDetails.class);
                     intent.putExtra("id", current.getExcursionID());
                     intent.putExtra("name", current.getExcursionName());
-                    intent.putExtra("price", current.getPrice());
                     intent.putExtra("prodID", current.getVacationID());
                     context.startActivity(intent);
                 }

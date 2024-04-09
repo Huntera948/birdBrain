@@ -32,11 +32,9 @@ import java.util.Locale;
 
 public class ExcursionDetails extends AppCompatActivity {
     String name;
-    Double price;
     int excursionID;
     int prodID;
     EditText editName;
-    EditText editPrice;
     EditText editNote;
     TextView editDate;
     Repository repository;
@@ -52,9 +50,6 @@ public class ExcursionDetails extends AppCompatActivity {
         name = getIntent().getStringExtra("name");
         editName = findViewById(R.id.excursionName);
         editName.setText(name);
-        price = getIntent().getDoubleExtra("price", -1.0);
-        editPrice = findViewById(R.id.excursionPrice);
-        editPrice.setText(Double.toString(price));
         excursionID = getIntent().getIntExtra("id", -1);
         prodID = getIntent().getIntExtra("prodID", -1);
         editNote = findViewById(R.id.note);
@@ -142,10 +137,10 @@ public class ExcursionDetails extends AppCompatActivity {
                     excursionID = 1;
                 else
                     excursionID = repository.getAllExcursions().get(repository.getAllExcursions().size() - 1).getExcursionID() + 1;
-                excursion = new Excursion(excursionID, editName.getText().toString(), Double.parseDouble(editPrice.getText().toString()), prodID);
+                excursion = new Excursion(excursionID, editName.getText().toString(), prodID);
                 repository.insert(excursion);
             } else {
-                excursion = new Excursion(excursionID, editName.getText().toString(), Double.parseDouble(editPrice.getText().toString()), prodID);
+                excursion = new Excursion(excursionID, editName.getText().toString(), prodID);
                 repository.update(excursion);
             }
             return true;

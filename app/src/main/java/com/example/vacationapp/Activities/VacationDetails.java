@@ -26,9 +26,13 @@ import java.util.List;
 public class VacationDetails extends AppCompatActivity {
     String name;
     String vacationHotel;
+    String vacationStartDate;
+    String vacationEndDate;
     int vacationID;
     EditText editName;
     EditText editHotel;
+    EditText editStartDate;
+    EditText editEndDate;
     Repository repository;
     Vacation currentVacation;
     int numExcursions;
@@ -42,6 +46,8 @@ public class VacationDetails extends AppCompatActivity {
         editName.setText(name);
         vacationID = getIntent().getIntExtra("id", -1);
         editHotel = findViewById(R.id.vacationhotel);
+        editStartDate = findViewById(R.id.vacationstartdate);
+        editEndDate = findViewById(R.id.vacationenddate);
         // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         RecyclerView recyclerView = findViewById(R.id.excursionrecyclerview);
         repository = new Repository(getApplication());
@@ -84,12 +90,16 @@ public class VacationDetails extends AppCompatActivity {
                 else
                     vacationID = repository.getAllVacations().get(repository.getAllVacations().size() - 1).getVacationID() + 1;
                 vacationHotel = editHotel.getText().toString();
-                vacation = new Vacation(vacationID, editName.getText().toString(), vacationHotel);
+                vacationStartDate = editStartDate.getText().toString();
+                vacationEndDate = editEndDate.getText().toString();
+                vacation = new Vacation(vacationID, editName.getText().toString(), vacationHotel, vacationStartDate, vacationEndDate);
                 repository.insert(vacation);
             } else {
                 try {
                     vacationHotel = editHotel.getText().toString();
-                    vacation = new Vacation(vacationID, editName.getText().toString(), vacationHotel);
+                    vacationStartDate = editStartDate.getText().toString();
+                    vacationEndDate = editEndDate.getText().toString();
+                    vacation = new Vacation(vacationID, editName.getText().toString(), vacationHotel, vacationStartDate, vacationEndDate);
                     repository.update(vacation);
                 } catch (Exception e) {
 
@@ -125,9 +135,9 @@ public class VacationDetails extends AppCompatActivity {
                 if (repository.getAllExcursions().size() == 0) excursionID = 1;
                 else
                     excursionID = repository.getAllExcursions().get(repository.getAllExcursions().size() - 1).getExcursionID() + 1;
-                Excursion excursion = new Excursion(excursionID, "spa day", 10, vacationID);
+                Excursion excursion = new Excursion(excursionID, "spa day", vacationID);
                 repository.insert(excursion);
-                excursion = new Excursion(++excursionID, "museum", 10, vacationID);
+                excursion = new Excursion(++excursionID, "museum", vacationID);
                 repository.insert(excursion);
                 RecyclerView recyclerView = findViewById(R.id.excursionrecyclerview);
                 final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this);

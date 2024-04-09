@@ -9,11 +9,15 @@ public class Vacation {
     private int vacationID;
     private String vacationName;
     private String vacationHotel;
+    private String vacationStartDate;
+    private String vacationEndDate;
 
-    public Vacation(int vacationID, String vacationName, String vacationHotel) {
+    public Vacation(int vacationID, String vacationName, String vacationHotel, String vacationStartDate, String vacationEndDate) {
         this.vacationID = vacationID;
         this.vacationName = vacationName;
         this.vacationHotel = vacationHotel;
+        this.vacationStartDate = vacationStartDate;
+        this.vacationEndDate = vacationEndDate;
     }
 
     public int getVacationID() {
@@ -38,6 +42,22 @@ public class Vacation {
 
     public void setVacationHotel(String vacationHotel) {
         this.vacationHotel = vacationHotel;
+    }
+
+    public String getVacationStartDate() {
+        return vacationStartDate;
+    }
+
+    public void setVacationStartDate(String vacationStartDate) {
+        this.vacationStartDate = vacationStartDate;
+    }
+
+    public String getVacationEndDate() {
+        return vacationEndDate;
+    }
+
+    public void setVacationEndDate(String vacationEndDate) {
+        this.vacationEndDate = vacationEndDate;
     }
 
 }

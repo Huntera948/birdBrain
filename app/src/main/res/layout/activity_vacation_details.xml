@@ -75,7 +75,7 @@
                     android:text="Start Date" />
 
                 <EditText
-                    android:id="@+id/vacationpriceB"
+                    android:id="@+id/vacationstartdate"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -90,7 +90,7 @@
                     android:text="End Date" />
 
                 <EditText
-                    android:id="@+id/vacationpriceC"
+                    android:id="@+id/vacationenddate"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>
