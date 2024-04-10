@@ -22,7 +22,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import com.example.vacationapp.Entities.Vacation;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -105,7 +108,11 @@ public class VacationDetails extends AppCompatActivity {
                 vacationEndDate = editEndDate.getText().toString();
                 if (!isValidDateFormat(vacationStartDate) || !isValidDateFormat(vacationEndDate)) {
                     Toast.makeText(VacationDetails.this, "Invalid date format. Please use MM/dd/yy", Toast.LENGTH_LONG).show();
-                    return true; // Return true to prevent further processing
+                    return true;
+                }
+                if (!isEndDateAfterStartDate(vacationStartDate, vacationEndDate)) {
+                    Toast.makeText(VacationDetails.this, "End date must be after start date", Toast.LENGTH_LONG).show();
+                    return true;
                 }
                 vacation = new Vacation(vacationID, editName.getText().toString(), editHotel.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString());
                 repository.insert(vacation);
@@ -116,7 +123,11 @@ public class VacationDetails extends AppCompatActivity {
                     vacationEndDate = editEndDate.getText().toString();
                     if (!isValidDateFormat(vacationStartDate) || !isValidDateFormat(vacationEndDate)) {
                         Toast.makeText(VacationDetails.this, "Invalid date format. Please use MM/dd/yy", Toast.LENGTH_LONG).show();
-                        return true; // Return true to prevent further processing
+                        return true;
+                    }
+                    if (!isEndDateAfterStartDate(vacationStartDate, vacationEndDate)) {
+                        Toast.makeText(VacationDetails.this, "End date must be after start date", Toast.LENGTH_LONG).show();
+                        return true;
                     }
                     vacation = new Vacation(vacationID, editName.getText().toString(), editHotel.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString());
                     repository.update(vacation);
@@ -196,5 +207,17 @@ public class VacationDetails extends AppCompatActivity {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(date);
         return matcher.matches();
+    }
+
+    private boolean isEndDateAfterStartDate(String startDate, String endDate) {
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yy");
+        try {
+            Date startDateObj = format.parse(startDate);
+            Date endDateObj = format.parse(endDate);
+            return endDateObj.after(startDateObj);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
