@@ -8,7 +8,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.example.vacationapp.Database.Repository;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +24,8 @@ import com.example.vacationapp.Entities.Vacation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class VacationDetails extends AppCompatActivity {
     String name;
@@ -99,6 +103,10 @@ public class VacationDetails extends AppCompatActivity {
                 vacationHotel = editHotel.getText().toString();
                 vacationStartDate = editStartDate.getText().toString();
                 vacationEndDate = editEndDate.getText().toString();
+                if (!isValidDateFormat(vacationStartDate) || !isValidDateFormat(vacationEndDate)) {
+                    Toast.makeText(VacationDetails.this, "Invalid date format. Please use MM/dd/yy", Toast.LENGTH_LONG).show();
+                    return true; // Return true to prevent further processing
+                }
                 vacation = new Vacation(vacationID, editName.getText().toString(), editHotel.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString());
                 repository.insert(vacation);
             } else {
@@ -106,6 +114,10 @@ public class VacationDetails extends AppCompatActivity {
                     vacationHotel = editHotel.getText().toString();
                     vacationStartDate = editStartDate.getText().toString();
                     vacationEndDate = editEndDate.getText().toString();
+                    if (!isValidDateFormat(vacationStartDate) || !isValidDateFormat(vacationEndDate)) {
+                        Toast.makeText(VacationDetails.this, "Invalid date format. Please use MM/dd/yy", Toast.LENGTH_LONG).show();
+                        return true; // Return true to prevent further processing
+                    }
                     vacation = new Vacation(vacationID, editName.getText().toString(), editHotel.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString());
                     repository.update(vacation);
                 } catch (Exception e) {
@@ -179,4 +191,10 @@ public class VacationDetails extends AppCompatActivity {
         //Toast.makeText(VacationDetails.this,"refresh list",Toast.LENGTH_LONG).show();
     }
 
+    private boolean isValidDateFormat(String date) {
+        String regex = "\\d{2}/\\d{2}/\\d{2}"; // MM/dd/yy format
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(date);
+        return matcher.matches();
+    }
 }
