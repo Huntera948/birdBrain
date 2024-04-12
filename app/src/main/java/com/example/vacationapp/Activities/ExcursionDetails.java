@@ -15,6 +15,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -142,6 +143,22 @@ public class ExcursionDetails extends AppCompatActivity {
             } else {
                 excursion = new Excursion(excursionID, editName.getText().toString(), prodID);
                 repository.update(excursion);
+            }
+            return true;
+        }
+        if (item.getItemId() == R.id.excursiondelete) {
+            Excursion currentExcursion = null;
+            for (Excursion excursion : repository.getAllExcursions()) {
+                if (excursion.getExcursionID() == excursionID) {
+                    currentExcursion = excursion;
+                    break;
+                }
+            }
+            if (currentExcursion != null) {
+                repository.delete(currentExcursion);
+                Toast.makeText(ExcursionDetails.this, currentExcursion.getExcursionName() + " was deleted", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(ExcursionDetails.this, "Excursion not found", Toast.LENGTH_LONG).show();
             }
             return true;
         }
