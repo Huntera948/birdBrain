@@ -1,7 +1,6 @@
 package com.example.vacationapp.Activities;
 
 import android.app.AlarmManager;
-import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 
 import android.content.Context;
@@ -9,12 +8,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,97 +23,49 @@ import com.example.vacationapp.R;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 public class ExcursionDetails extends AppCompatActivity {
     String name;
+    String date;
+    EditText editName;
     String vacationStartDate;
     String vacationEndDate;
     int excursionID;
     int prodID;
-    EditText editName;
     EditText editNote;
-    TextView editDate;
+    EditText editDate;
     Repository repository;
-    DatePickerDialog.OnDateSetListener startDate;
-    final Calendar myCalendarStart = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_excursion_details);
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        repository = new Repository(getApplication());
         name = getIntent().getStringExtra("name");
         editName = findViewById(R.id.excursionName);
         editName.setText(name);
         excursionID = getIntent().getIntExtra("id", -1);
         prodID = getIntent().getIntExtra("prodID", -1);
         editNote = findViewById(R.id.note);
+        date = getIntent().getStringExtra("date");
         editDate = findViewById(R.id.date);
+        editDate.setText(date);
         vacationStartDate = getIntent().getStringExtra("vacationStartDate");
         vacationEndDate = getIntent().getStringExtra("vacationEndDate");
-        String myFormat = "MM/dd/yy";
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
-        ArrayList<Vacation> vacationArrayList = new ArrayList<>();
-        vacationArrayList.addAll(repository.getAllVacations());
+        repository = new Repository(getApplication());
+        ArrayList<Vacation> vacationArrayList = new ArrayList<>(repository.getAllVacations());
         ArrayList<Integer> vacationIdList = new ArrayList<>();
         for (Vacation vacation : vacationArrayList) {
             vacationIdList.add(vacation.getVacationID());
         }
-        ArrayAdapter<Integer> vacationIdAdapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, vacationIdList);
+        ArrayAdapter<Integer> vacationIdAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, vacationIdList);
         Spinner spinner = findViewById(R.id.spinner);
         spinner.setAdapter(vacationIdAdapter);
 
-        startDate = new DatePickerDialog.OnDateSetListener() {
-
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
-                // TODO Auto-generated method stub
-
-                myCalendarStart.set(Calendar.YEAR, year);
-                myCalendarStart.set(Calendar.MONTH, monthOfYear);
-                myCalendarStart.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-
-                updateLabelStart();
-            }
-
-        };
-
-        editDate.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Date date;
-                //get value from other screen,but I'm going to hard code it right now
-                String info = editDate.getText().toString();
-                if (info.equals("")) info = "02/10/22";
-                try {
-                    myCalendarStart.setTime(sdf.parse(info));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                new DatePickerDialog(ExcursionDetails.this, startDate, myCalendarStart
-                        .get(Calendar.YEAR), myCalendarStart.get(Calendar.MONTH),
-                        myCalendarStart.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
-
     }
-
-    private void updateLabelStart() {
-        String myFormat = "MM/dd/yy"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
-        editDate.setText(sdf.format(myCalendarStart.getTime()));
-    }
-
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_excursiondetails, menu);
@@ -128,6 +76,8 @@ public class ExcursionDetails extends AppCompatActivity {
 
         if (item.getItemId() == android.R.id.home) {
             this.finish();
+            Intent intent = new Intent(ExcursionDetails.this, MainActivity.class);
+            startActivity(intent);
             return true;
         }
         // return true;
@@ -201,7 +151,7 @@ public class ExcursionDetails extends AppCompatActivity {
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
             return true;
         }

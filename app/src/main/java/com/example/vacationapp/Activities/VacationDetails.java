@@ -173,9 +173,9 @@ public class VacationDetails extends AppCompatActivity {
                 if (repository.getAllExcursions().size() == 0) excursionID = 1;
                 else
                     excursionID = repository.getAllExcursions().get(repository.getAllExcursions().size() - 1).getExcursionID() + 1;
-                Excursion excursion = new Excursion(excursionID, "spa day", vacationID);
+                Excursion excursion = new Excursion(excursionID, "spa day", vacationID, "02/01/95");
                 repository.insert(excursion);
-                excursion = new Excursion(++excursionID, "museum", vacationID);
+                excursion = new Excursion(++excursionID, "museum", vacationID, "02/01/95");
                 repository.insert(excursion);
                 RecyclerView recyclerView = findViewById(R.id.excursionrecyclerview);
                 final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this);
