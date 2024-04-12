@@ -189,24 +189,36 @@ public class VacationDetails extends AppCompatActivity {
 
         }
         if (item.getItemId() == R.id.notify) {
-            String dateFromScreen = vacationStartDate;
             String myFormat = "MM/dd/yy";
             SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-            Date myDate = null;
+
             try {
-                myDate = sdf.parse(dateFromScreen);
+                Date startDate = sdf.parse(vacationStartDate);
+                Long startTrigger = startDate.getTime();
+                Intent startIntent = new Intent(VacationDetails.this, MyReceiver.class);
+                startIntent.putExtra("key", "Vacation '" + name + "' is starting.");
+                PendingIntent startSender = PendingIntent.getBroadcast(VacationDetails.this, ++MainActivity.numAlert, startIntent, PendingIntent.FLAG_IMMUTABLE);
+                AlarmManager startAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                startAlarmManager.set(AlarmManager.RTC_WAKEUP, startTrigger, startSender);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            Long trigger = myDate.getTime();
-            Intent intent = new Intent(VacationDetails.this, MyReceiver.class);
-            intent.putExtra("key", "message I want to see");
-            PendingIntent sender = PendingIntent.getBroadcast(VacationDetails.this, ++MainActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
-            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
+
+            try {
+                Date endDate = sdf.parse(vacationEndDate);
+                Long endTrigger = endDate.getTime();
+                Intent endIntent = new Intent(VacationDetails.this, MyReceiver.class);
+                endIntent.putExtra("key", "Vacation '" + name + "' is ending.");
+                PendingIntent endSender = PendingIntent.getBroadcast(VacationDetails.this, ++MainActivity.numAlert, endIntent, PendingIntent.FLAG_IMMUTABLE);
+                AlarmManager endAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                endAlarmManager.set(AlarmManager.RTC_WAKEUP, endTrigger, endSender);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
