@@ -29,8 +29,7 @@ public class MyReceiver extends BroadcastReceiver {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
         notificationManager.notify(notificationID++, n);
     }
-    // TODO: This method is called when the BroadcastReceiver is receiving
-    // an Intent broadcast.
+    // TODO: This method is called when the BroadcastReceiver is receiving an Intent broadcast.
 
 
     private void createNotificationChannel(Context context, String CHANNEL_ID) {
