@@ -76,8 +76,6 @@ public class ExcursionDetails extends AppCompatActivity {
 
         if (item.getItemId() == android.R.id.home) {
             this.finish();
-            Intent intent = new Intent(ExcursionDetails.this, MainActivity.class);
-            startActivity(intent);
             return true;
         }
         // return true;
@@ -86,25 +84,40 @@ public class ExcursionDetails extends AppCompatActivity {
 //                return true;
 
         if (item.getItemId() == R.id.excursionsave) {
-            // Your existing code to save or update the excursion
+            String dateFromScreen = editDate.getText().toString();
+            if (dateFromScreen.isEmpty()) {
+                // Handle the case where the date is empty
+                Toast.makeText(ExcursionDetails.this, "Excursion date is empty", Toast.LENGTH_LONG).show();
+                return true;
+            }
 
-            // Add excursion date validation
-            String excursionDateStr = editDate.getText().toString();
-            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy", Locale.US);
+            String myFormat = "MM/dd/yy";
+            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+            Date myDate;
             try {
-                Date excursionDate = sdf.parse(excursionDateStr);
-                // Retrieve start and end dates of the associated vacation
-                Date startDate = sdf.parse(vacationStartDate);
-                Date endDate = sdf.parse(vacationEndDate);
-                // Check if the excursion date is within the vacation period
-                if (excursionDate.before(startDate) || excursionDate.after(endDate)) {
-                    Toast.makeText(ExcursionDetails.this, "Excursion date must be during the associated vacation", Toast.LENGTH_LONG).show();
-                    return true; // Exit the method without saving the excursion
-                }
+                myDate = sdf.parse(dateFromScreen);
             } catch (ParseException e) {
                 e.printStackTrace();
                 // Handle parse exception
+                Toast.makeText(ExcursionDetails.this, "Error parsing date", Toast.LENGTH_LONG).show();
+                return true;
             }
+
+            date = sdf.format(myDate);
+
+            Excursion excursion;
+            if (excursionID == -1) {
+                if (repository.getAllExcursions().size() == 0)
+                    excursionID = 1;
+                else
+                    excursionID = repository.getAllExcursions().get(repository.getAllExcursions().size() - 1).getExcursionID() + 1;
+                excursion = new Excursion(excursionID, editName.getText().toString(), prodID, date);
+                repository.insert(excursion);
+            } else {
+                excursion = new Excursion(excursionID, editName.getText().toString(), prodID, date);
+                repository.update(excursion);
+            }
+            return true;
         }
 
         if (item.getItemId() == R.id.excursiondelete) {
