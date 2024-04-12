@@ -8,6 +8,9 @@
         android:id="@+id/vacationdelete"/>
     <item android:title="Add Sample Excursions"
         android:id="@+id/addSampleExcursions"/>
+    <item android:title="Share Vacation Details"
+        android:orderInCategory="100"
+        android:id="@+id/share"/>
     <item android:title="Notify"
         android:id="@+id/notify"/>
 </menu>

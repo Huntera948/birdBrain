@@ -188,6 +188,22 @@ public class VacationDetails extends AppCompatActivity {
             }
 
         }
+        if (item.getItemId() == R.id.share) {
+            String vacationDetails = "Vacation Details:\n" +
+                    "Name: " + name + "\n" +
+                    "Hotel: " + vacationHotel + "\n" +
+                    "Start Date: " + vacationStartDate + "\n" +
+                    "End Date: " + vacationEndDate + "\n";
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, vacationDetails);
+            sendIntent.putExtra(Intent.EXTRA_TITLE, "Vacation Details");
+            sendIntent.setType("text/plain");
+            Intent shareIntent = Intent.createChooser(sendIntent, "Share via");
+            startActivity(shareIntent);
+            return true;
+        }
+
         if (item.getItemId() == R.id.notify) {
             String myFormat = "MM/dd/yy";
             SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
