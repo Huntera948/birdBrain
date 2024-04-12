@@ -122,7 +122,7 @@ public class VacationDetails extends AppCompatActivity {
                     vacationStartDate = editStartDate.getText().toString();
                     vacationEndDate = editEndDate.getText().toString();
                     if (!isValidDateFormat(vacationStartDate) || !isValidDateFormat(vacationEndDate)) {
-                        Toast.makeText(VacationDetails.this, "Invalid date format. Please use MM/dd/yy", Toast.LENGTH_LONG).show();
+                        Toast.makeText(VacationDetails.this, "Invalid date format. Both dates must be filled in and entered as MM/dd/yy", Toast.LENGTH_LONG).show();
                         return true;
                     }
                     if (!isEndDateAfterStartDate(vacationStartDate, vacationEndDate)) {
