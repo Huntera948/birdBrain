@@ -25,6 +25,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ExcursionDetails extends AppCompatActivity {
     String name;
@@ -85,9 +87,8 @@ public class ExcursionDetails extends AppCompatActivity {
 
         if (item.getItemId() == R.id.excursionsave) {
             String dateFromScreen = editDate.getText().toString();
-            if (dateFromScreen.isEmpty()) {
-                // Handle the case where the date is empty
-                Toast.makeText(ExcursionDetails.this, "Excursion date is empty", Toast.LENGTH_LONG).show();
+            if (!isValidDateFormat(dateFromScreen)) {
+                Toast.makeText(ExcursionDetails.this, "Invalid date format. Please use MM/dd/yy", Toast.LENGTH_LONG).show();
                 return true;
             }
 
@@ -170,5 +171,11 @@ public class ExcursionDetails extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    private boolean isValidDateFormat(String date) {
+        String regex = "\\d{2}/\\d{2}/\\d{2}"; // MM/dd/yy format
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(date);
+        return matcher.matches();
     }
 }
