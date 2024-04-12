@@ -33,6 +33,8 @@ import java.util.Locale;
 
 public class ExcursionDetails extends AppCompatActivity {
     String name;
+    String vacationStartDate;
+    String vacationEndDate;
     int excursionID;
     int prodID;
     EditText editName;
@@ -55,6 +57,8 @@ public class ExcursionDetails extends AppCompatActivity {
         prodID = getIntent().getIntExtra("prodID", -1);
         editNote = findViewById(R.id.note);
         editDate = findViewById(R.id.date);
+        vacationStartDate = getIntent().getStringExtra("vacationStartDate");
+        vacationEndDate = getIntent().getStringExtra("vacationEndDate");
         String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
@@ -132,20 +136,27 @@ public class ExcursionDetails extends AppCompatActivity {
 //                return true;
 
         if (item.getItemId() == R.id.excursionsave) {
-            Excursion excursion;
-            if (excursionID == -1) {
-                if (repository.getAllExcursions().size() == 0)
-                    excursionID = 1;
-                else
-                    excursionID = repository.getAllExcursions().get(repository.getAllExcursions().size() - 1).getExcursionID() + 1;
-                excursion = new Excursion(excursionID, editName.getText().toString(), prodID);
-                repository.insert(excursion);
-            } else {
-                excursion = new Excursion(excursionID, editName.getText().toString(), prodID);
-                repository.update(excursion);
+            // Your existing code to save or update the excursion
+
+            // Add excursion date validation
+            String excursionDateStr = editDate.getText().toString();
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy", Locale.US);
+            try {
+                Date excursionDate = sdf.parse(excursionDateStr);
+                // Retrieve start and end dates of the associated vacation
+                Date startDate = sdf.parse(vacationStartDate);
+                Date endDate = sdf.parse(vacationEndDate);
+                // Check if the excursion date is within the vacation period
+                if (excursionDate.before(startDate) || excursionDate.after(endDate)) {
+                    Toast.makeText(ExcursionDetails.this, "Excursion date must be during the associated vacation", Toast.LENGTH_LONG).show();
+                    return true; // Exit the method without saving the excursion
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+                // Handle parse exception
             }
-            return true;
         }
+
         if (item.getItemId() == R.id.excursiondelete) {
             Excursion currentExcursion = null;
             for (Excursion excursion : repository.getAllExcursions()) {
@@ -185,7 +196,7 @@ public class ExcursionDetails extends AppCompatActivity {
             try {
                 Long trigger = myDate.getTime();
                 Intent intent = new Intent(ExcursionDetails.this, MyReceiver.class);
-                intent.putExtra("key", "message I want to see");
+                intent.putExtra("key", "Excursion '" + name + "' is starting.");
                 PendingIntent sender = PendingIntent.getBroadcast(ExcursionDetails.this, ++MainActivity.numAlert, intent, PendingIntent.FLAG_IMMUTABLE);
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
