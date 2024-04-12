@@ -55,7 +55,7 @@ public class ExcursionDetails extends AppCompatActivity {
         prodID = getIntent().getIntExtra("prodID", -1);
         editNote = findViewById(R.id.note);
         editDate = findViewById(R.id.date);
-        String myFormat = "MM/dd/yy"; //In which you need put here
+        String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         ArrayList<Vacation> vacationArrayList = new ArrayList<>();
