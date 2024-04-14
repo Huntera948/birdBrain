@@ -97,54 +97,6 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Vacation PriceD" />
-
-                <EditText
-                    android:id="@+id/vacationpriced"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Vacation PriceE" />
-
-                <EditText
-                    android:id="@+id/vacationpricee"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Vacation PriceF" />
-
-                <EditText
-                    android:id="@+id/vacationpricef"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

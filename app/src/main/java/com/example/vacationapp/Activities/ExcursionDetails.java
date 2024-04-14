@@ -35,7 +35,7 @@ public class ExcursionDetails extends AppCompatActivity {
     String vacationStartDate;
     String vacationEndDate;
     int excursionID;
-    int prodID;
+    int vacationID;
     EditText editNote;
     EditText editDate;
     Repository repository;
@@ -49,7 +49,7 @@ public class ExcursionDetails extends AppCompatActivity {
         editName = findViewById(R.id.excursionName);
         editName.setText(name);
         excursionID = getIntent().getIntExtra("id", -1);
-        prodID = getIntent().getIntExtra("prodID", -1);
+        vacationID = getIntent().getIntExtra("vacationID", -1);
         editNote = findViewById(R.id.note);
         date = getIntent().getStringExtra("date");
         editDate = findViewById(R.id.date);
@@ -63,10 +63,6 @@ public class ExcursionDetails extends AppCompatActivity {
         for (Vacation vacation : vacationArrayList) {
             vacationIdList.add(vacation.getVacationID());
         }
-        ArrayAdapter<Integer> vacationIdAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, vacationIdList);
-        Spinner spinner = findViewById(R.id.spinner);
-        spinner.setAdapter(vacationIdAdapter);
-
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -112,10 +108,10 @@ public class ExcursionDetails extends AppCompatActivity {
                     excursionID = 1;
                 else
                     excursionID = repository.getAllExcursions().get(repository.getAllExcursions().size() - 1).getExcursionID() + 1;
-                excursion = new Excursion(excursionID, editName.getText().toString(), prodID, date);
+                excursion = new Excursion(excursionID, editName.getText().toString(), vacationID, date);
                 repository.insert(excursion);
             } else {
-                excursion = new Excursion(excursionID, editName.getText().toString(), prodID, date);
+                excursion = new Excursion(excursionID, editName.getText().toString(), vacationID, date);
                 repository.update(excursion);
             }
             return true;
