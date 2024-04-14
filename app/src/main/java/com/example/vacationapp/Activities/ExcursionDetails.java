@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -56,7 +57,7 @@ public class ExcursionDetails extends AppCompatActivity {
         editDate.setText(date);
         vacationStartDate = getIntent().getStringExtra("vacationStartDate");
         vacationEndDate = getIntent().getStringExtra("vacationEndDate");
-
+        Log.d("ExcursionDetails", "Excursion Details: Start Date: " + vacationStartDate + ", End Date: " + vacationEndDate);
         repository = new Repository(getApplication());
         ArrayList<Vacation> vacationArrayList = new ArrayList<>(repository.getAllVacations());
         ArrayList<Integer> vacationIdList = new ArrayList<>();
@@ -88,32 +89,33 @@ public class ExcursionDetails extends AppCompatActivity {
                 return true;
             }
 
-            String myFormat = "MM/dd/yy";
-            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-            Date myDate;
-            try {
-                myDate = sdf.parse(dateFromScreen);
-            } catch (ParseException e) {
-                e.printStackTrace();
-                // Handle parse exception
-                Toast.makeText(ExcursionDetails.this, "Error parsing date", Toast.LENGTH_LONG).show();
-                return true;
-            }
+                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy", Locale.US);
+                try {
+                    Date excursionDate = sdf.parse(dateFromScreen);
+                    Date startDate = sdf.parse(vacationStartDate);
+                    Date endDate = sdf.parse(vacationEndDate);
 
-            date = sdf.format(myDate);
+                    // Check if the excursion date is within the vacation date range
+                    if (excursionDate.before(startDate) || excursionDate.after(endDate)) {
+                        Toast.makeText(ExcursionDetails.this, "Excursion date must be between vacation start and end dates", Toast.LENGTH_LONG).show();
+                        return true;
+                    }
 
-            Excursion excursion;
-            if (excursionID == -1) {
-                if (repository.getAllExcursions().size() == 0)
-                    excursionID = 1;
-                else
-                    excursionID = repository.getAllExcursions().get(repository.getAllExcursions().size() - 1).getExcursionID() + 1;
-                excursion = new Excursion(excursionID, editName.getText().toString(), vacationID, date);
-                repository.insert(excursion);
-            } else {
-                excursion = new Excursion(excursionID, editName.getText().toString(), vacationID, date);
-                repository.update(excursion);
-            }
+                    // Save or update the excursion as necessary
+                    Excursion excursion;
+                    if (excursionID == -1) {  // Handling for new excursion
+                        excursionID = repository.getAllExcursions().size() == 0 ? 1 :
+                                repository.getAllExcursions().get(repository.getAllExcursions().size() - 1).getExcursionID() + 1;
+                        excursion = new Excursion(excursionID, editName.getText().toString(), vacationID, dateFromScreen);
+                        repository.insert(excursion);
+                    } else {  // Handling for updating an existing excursion
+                        excursion = new Excursion(excursionID, editName.getText().toString(), vacationID, dateFromScreen);
+                        repository.update(excursion);
+                    }
+                } catch (ParseException e) {
+                    Toast.makeText(ExcursionDetails.this, "Error parsing dates", Toast.LENGTH_LONG).show();
+                    return true;
+                }
             return true;
         }
 

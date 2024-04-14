@@ -53,8 +53,8 @@ public class VacationList extends AppCompatActivity {
 
         if (item.getItemId() == android.R.id.home) {
             this.finish();
-//                Intent intent=new Intent(VacationDetails.this,MainActivity.class);
-//                startActivity(intent);
+                Intent intent=new Intent(VacationList.this, VacationDetails.class);
+                startActivity(intent);
             return true;
         }
 

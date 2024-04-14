@@ -2,6 +2,7 @@ package com.example.vacationapp.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,9 @@ import com.example.vacationapp.R;
 import java.util.List;
 
 public class ExcursionAdapter extends RecyclerView.Adapter<ExcursionAdapter.ExcursionViewHolder> {
-
+    private List<Excursion> mExcursions;
+    private final Context context;
+    private final LayoutInflater mInflater;
     class ExcursionViewHolder extends RecyclerView.ViewHolder {
         private final TextView excursionItemView;
         private final TextView excursionItemView2;
@@ -35,19 +38,23 @@ public class ExcursionAdapter extends RecyclerView.Adapter<ExcursionAdapter.Excu
                     intent.putExtra("name", current.getExcursionName());
                     intent.putExtra("vacationID", current.getVacationID());
                     intent.putExtra("date", current.getExcursionDate());
+                    intent.putExtra("vacationStartDate", vacationStartDate);
+                    intent.putExtra("vacationEndDate", vacationEndDate);
+                    Log.d("ExcursionDetails", "Excursion Adapter: Start Date: " + vacationStartDate + ", End Date: " + vacationEndDate);
                     context.startActivity(intent);
                 }
             });
         }
     }
 
-    private List<Excursion> mExcursions;
-    private final Context context;
-    private final LayoutInflater mInflater;
+    private String vacationStartDate;
+    private String vacationEndDate;
 
-    public ExcursionAdapter(Context context) {
+    public ExcursionAdapter(Context context, String startDate, String endDate) {
         mInflater = LayoutInflater.from(context);
         this.context = context;
+        this.vacationStartDate = startDate;
+        this.vacationEndDate = endDate;
     }
 
     @NonNull
