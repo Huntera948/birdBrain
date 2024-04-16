@@ -77,7 +77,7 @@
                     android:text="Start Date" />
 
                 <EditText
-                    android:id="@+id/birdstartdate"
+                    android:id="@+id/birdsightingdate"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>

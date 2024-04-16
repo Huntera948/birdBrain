@@ -36,12 +36,12 @@ import java.util.regex.Pattern;
 public class BirdDetails extends AppCompatActivity {
     String name;
     String birdNotes;
-    String birdStartDate;
+    String birdSightingDate;
     String birdEndDate;
     int birdID;
     EditText editName;
     EditText editNotes;
-    EditText editStartDate;
+    EditText editSightingDate;
     EditText editEndDate;
     Repository repository;
     Bird currentBird;
@@ -60,17 +60,17 @@ public class BirdDetails extends AppCompatActivity {
         birdNotes = intent.getStringExtra("notes");
         editNotes = findViewById(R.id.birdnotes);
         editNotes.setText(birdNotes);
-        birdStartDate = intent.getStringExtra("birdStartDate");
-        editStartDate = findViewById(R.id.birdstartdate);
-        editStartDate.setText(birdStartDate);
+        birdSightingDate = intent.getStringExtra("birdSightingDate");
+        editSightingDate = findViewById(R.id.birdsightingdate);
+        editSightingDate.setText(birdSightingDate);
         birdEndDate = intent.getStringExtra("birdEndDate");
         editEndDate = findViewById(R.id.birdenddate);
         editEndDate.setText(birdEndDate);
-        Log.d("ExcursionDetails", "Bird Details: Start Date: " + birdStartDate + ", End Date: " + birdEndDate);
+        Log.d("ExcursionDetails", "Bird Details: Start Date: " + birdSightingDate + ", End Date: " + birdEndDate);
         // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         RecyclerView recyclerView = findViewById(R.id.excursionrecyclerview);
         repository = new Repository(getApplication());
-        final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this, birdStartDate, birdEndDate);
+        final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this, birdSightingDate, birdEndDate);
         recyclerView.setAdapter(excursionAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         List<Excursion> filteredExcursions = new ArrayList<>();
@@ -84,7 +84,7 @@ public class BirdDetails extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(BirdDetails.this, ExcursionDetails.class);
                 intent.putExtra("birdID", birdID);
-                intent.putExtra("birdStartDate", birdStartDate);
+                intent.putExtra("birdSightingDate", birdSightingDate);
                 intent.putExtra("birdEndDate", birdEndDate);
                 startActivity(intent);
             }
@@ -110,32 +110,32 @@ public class BirdDetails extends AppCompatActivity {
                 else
                     birdID = repository.getAllBirds().get(repository.getAllBirds().size() - 1).getBirdID() + 1;
                 birdNotes = editNotes.getText().toString();
-                birdStartDate = editStartDate.getText().toString();
+                birdSightingDate = editSightingDate.getText().toString();
                 birdEndDate = editEndDate.getText().toString();
-                if (!isValidDateFormat(birdStartDate) || !isValidDateFormat(birdEndDate)) {
+                if (!isValidDateFormat(birdSightingDate) || !isValidDateFormat(birdEndDate)) {
                     Toast.makeText(BirdDetails.this, "Invalid date format. Please use MM/dd/yy", Toast.LENGTH_LONG).show();
                     return true;
                 }
-                if (!isEndDateAfterStartDate(birdStartDate, birdEndDate)) {
+                if (!isEndDateAfterSightingDate(birdSightingDate, birdEndDate)) {
                     Toast.makeText(BirdDetails.this, "End date must be after start date", Toast.LENGTH_LONG).show();
                     return true;
                 }
-                bird = new Bird(birdID, editName.getText().toString(), editNotes.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString());
+                bird = new Bird(birdID, editName.getText().toString(), editNotes.getText().toString(), editSightingDate.getText().toString(), editEndDate.getText().toString());
                 repository.insert(bird);
             } else {
                 try {
                     birdNotes = editNotes.getText().toString();
-                    birdStartDate = editStartDate.getText().toString();
+                    birdSightingDate = editSightingDate.getText().toString();
                     birdEndDate = editEndDate.getText().toString();
-                    if (!isValidDateFormat(birdStartDate) || !isValidDateFormat(birdEndDate)) {
+                    if (!isValidDateFormat(birdSightingDate) || !isValidDateFormat(birdEndDate)) {
                         Toast.makeText(BirdDetails.this, "Invalid date format. Both dates must be filled in and entered as MM/dd/yy", Toast.LENGTH_LONG).show();
                         return true;
                     }
-                    if (!isEndDateAfterStartDate(birdStartDate, birdEndDate)) {
+                    if (!isEndDateAfterSightingDate(birdSightingDate, birdEndDate)) {
                         Toast.makeText(BirdDetails.this, "End date must be after start date", Toast.LENGTH_LONG).show();
                         return true;
                     }
-                    bird = new Bird(birdID, editName.getText().toString(), editNotes.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString());
+                    bird = new Bird(birdID, editName.getText().toString(), editNotes.getText().toString(), editSightingDate.getText().toString(), editEndDate.getText().toString());
                     repository.update(bird);
                 } catch (Exception e) {
 
@@ -173,7 +173,7 @@ public class BirdDetails extends AppCompatActivity {
                 excursion = new Excursion(++excursionID, "museum", birdID, "02/01/95");
                 repository.insert(excursion);
                 RecyclerView recyclerView = findViewById(R.id.excursionrecyclerview);
-                final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this, birdStartDate, birdEndDate);
+                final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this, birdSightingDate, birdEndDate);
                 recyclerView.setAdapter(excursionAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(this));
                 List<Excursion> filteredExcursions = new ArrayList<>();
@@ -188,7 +188,7 @@ public class BirdDetails extends AppCompatActivity {
             String birdDetails = "Bird Details:\n" +
                     "Name: " + name + "\n" +
                     "Notes: " + birdNotes + "\n" +
-                    "Start Date: " + birdStartDate + "\n" +
+                    "Start Date: " + birdSightingDate + "\n" +
                     "End Date: " + birdEndDate + "\n";
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
@@ -203,8 +203,8 @@ public class BirdDetails extends AppCompatActivity {
             String myFormat = "MM/dd/yy";
             SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
             try {
-                Date startDate = sdf.parse(birdStartDate);
-                Long startTrigger = startDate.getTime();
+                Date sightingDate = sdf.parse(birdSightingDate);
+                Long startTrigger = sightingDate.getTime();
                 Intent startIntent = new Intent(BirdDetails.this, MyReceiver.class);
                 startIntent.putExtra("key", "Bird '" + name + "' is starting.");
                 PendingIntent startSender = PendingIntent.getBroadcast(BirdDetails.this, ++MainActivity.numAlert, startIntent, PendingIntent.FLAG_IMMUTABLE);
@@ -233,7 +233,7 @@ public class BirdDetails extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         RecyclerView recyclerView = findViewById(R.id.excursionrecyclerview);
-        final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this, birdStartDate, birdEndDate);
+        final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this, birdSightingDate, birdEndDate);
         recyclerView.setAdapter(excursionAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         List<Excursion> filteredExcursions = new ArrayList<>();
@@ -251,12 +251,12 @@ public class BirdDetails extends AppCompatActivity {
         return matcher.matches();
     }
 
-    private boolean isEndDateAfterStartDate(String startDate, String endDate) {
+    private boolean isEndDateAfterSightingDate(String sightingDate, String endDate) {
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yy");
         try {
-            Date startDateObj = format.parse(startDate);
+            Date sightingDateObj = format.parse(sightingDate);
             Date endDateObj = format.parse(endDate);
-            return endDateObj.after(startDateObj);
+            return endDateObj.after(sightingDateObj);
         } catch (ParseException e) {
             e.printStackTrace();
             return false;

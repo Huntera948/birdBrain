@@ -33,7 +33,7 @@ public class ExcursionDetails extends AppCompatActivity {
     String name;
     String date;
     EditText editName;
-    String birdStartDate;
+    String birdSightingDate;
     String birdEndDate;
     int excursionID;
     int birdID;
@@ -55,9 +55,9 @@ public class ExcursionDetails extends AppCompatActivity {
         date = getIntent().getStringExtra("date");
         editDate = findViewById(R.id.date);
         editDate.setText(date);
-        birdStartDate = getIntent().getStringExtra("birdStartDate");
+        birdSightingDate = getIntent().getStringExtra("birdSightingDate");
         birdEndDate = getIntent().getStringExtra("birdEndDate");
-        Log.d("ExcursionDetails", "Excursion Details: Start Date: " + birdStartDate + ", End Date: " + birdEndDate);
+        Log.d("ExcursionDetails", "Excursion Details: Start Date: " + birdSightingDate + ", End Date: " + birdEndDate);
         repository = new Repository(getApplication());
         ArrayList<Bird> birdArrayList = new ArrayList<>(repository.getAllBirds());
         ArrayList<Integer> birdIdList = new ArrayList<>();
@@ -92,11 +92,11 @@ public class ExcursionDetails extends AppCompatActivity {
                 SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy", Locale.US);
                 try {
                     Date excursionDate = sdf.parse(dateFromScreen);
-                    Date startDate = sdf.parse(birdStartDate);
+                    Date sightingDate = sdf.parse(birdSightingDate);
                     Date endDate = sdf.parse(birdEndDate);
 
                     // Check if the excursion date is within the bird date range
-                    if (excursionDate.before(startDate) || excursionDate.after(endDate)) {
+                    if (excursionDate.before(sightingDate) || excursionDate.after(endDate)) {
                         Toast.makeText(ExcursionDetails.this, "Excursion date must be between bird start and end dates", Toast.LENGTH_LONG).show();
                         return true;
                     }

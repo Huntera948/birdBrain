@@ -9,14 +9,14 @@ public class Bird {
     private int birdID;
     private String birdName;
     private String birdNotes;
-    private String birdStartDate;
+    private String birdSightingDate;
     private String birdEndDate;
 
-    public Bird(int birdID, String birdName, String birdNotes, String birdStartDate, String birdEndDate) {
+    public Bird(int birdID, String birdName, String birdNotes, String birdSightingDate, String birdEndDate) {
         this.birdID = birdID;
         this.birdName = birdName;
         this.birdNotes = birdNotes;
-        this.birdStartDate = birdStartDate;
+        this.birdSightingDate = birdSightingDate;
         this.birdEndDate = birdEndDate;
     }
 
@@ -44,12 +44,12 @@ public class Bird {
         this.birdNotes = birdNotes;
     }
 
-    public String getBirdStartDate() {
-        return birdStartDate;
+    public String getBirdSightingDate() {
+        return birdSightingDate;
     }
 
-    public void setBirdStartDate(String birdStartDate) {
-        this.birdStartDate = birdStartDate;
+    public void setBirdSightingDate(String birdSightingDate) {
+        this.birdSightingDate = birdSightingDate;
     }
 
     public String getBirdEndDate() {
