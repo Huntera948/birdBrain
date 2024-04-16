@@ -1,4 +1,4 @@
-package com.example.vacationapp.Activities;
+package com.example.birdbrain.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.vacationapp.R;
+import com.example.birdbrain.R;
 
 public class MainActivity extends AppCompatActivity {
     // This application uses an image by Designed by rawpixel.com / Freepik
@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, VacationList.class);
+                Intent intent = new Intent(MainActivity.this, BirdList.class);
                 startActivity(intent);
             }
         });

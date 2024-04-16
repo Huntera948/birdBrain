@@ -1,4 +1,4 @@
-package com.example.vacationapp.Activities;
+package com.example.birdbrain.Activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,8 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.vacationapp.Entities.Excursion;
-import com.example.vacationapp.R;
+import com.example.birdbrain.Entities.Excursion;
+import com.example.birdbrain.R;
 
 import java.util.List;
 
@@ -36,25 +36,25 @@ public class ExcursionAdapter extends RecyclerView.Adapter<ExcursionAdapter.Excu
                     Intent intent = new Intent(context, ExcursionDetails.class);
                     intent.putExtra("id", current.getExcursionID());
                     intent.putExtra("name", current.getExcursionName());
-                    intent.putExtra("vacationID", current.getVacationID());
+                    intent.putExtra("birdID", current.getBirdID());
                     intent.putExtra("date", current.getExcursionDate());
-                    intent.putExtra("vacationStartDate", vacationStartDate);
-                    intent.putExtra("vacationEndDate", vacationEndDate);
-                    Log.d("ExcursionDetails", "Excursion Adapter: Start Date: " + vacationStartDate + ", End Date: " + vacationEndDate);
+                    intent.putExtra("birdStartDate", birdStartDate);
+                    intent.putExtra("birdEndDate", birdEndDate);
+                    Log.d("ExcursionDetails", "Excursion Adapter: Start Date: " + birdStartDate + ", End Date: " + birdEndDate);
                     context.startActivity(intent);
                 }
             });
         }
     }
 
-    private String vacationStartDate;
-    private String vacationEndDate;
+    private String birdStartDate;
+    private String birdEndDate;
 
     public ExcursionAdapter(Context context, String startDate, String endDate) {
         mInflater = LayoutInflater.from(context);
         this.context = context;
-        this.vacationStartDate = startDate;
-        this.vacationEndDate = endDate;
+        this.birdStartDate = startDate;
+        this.birdEndDate = endDate;
     }
 
     @NonNull
@@ -69,12 +69,12 @@ public class ExcursionAdapter extends RecyclerView.Adapter<ExcursionAdapter.Excu
         if (mExcursions != null) {
             Excursion current = mExcursions.get(position);
             String name = current.getExcursionName();
-            int vacationID = current.getVacationID();
+            int birdID = current.getBirdID();
             holder.excursionItemView.setText(name);
-            holder.excursionItemView2.setText(Integer.toString(vacationID));
+            holder.excursionItemView2.setText(Integer.toString(birdID));
         } else {
             holder.excursionItemView.setText("No excursion name");
-            holder.excursionItemView.setText("No vacation id");
+            holder.excursionItemView.setText("No bird id");
         }
     }
 

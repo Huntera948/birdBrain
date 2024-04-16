@@ -1,12 +1,12 @@
-package com.example.vacationapp.Database;
+package com.example.birdbrain.Database;
 
 import android.app.Application;
 
 
-import com.example.vacationapp.DAO.ExcursionDAO;
-import com.example.vacationapp.DAO.VacationDAO;
-import com.example.vacationapp.Entities.Excursion;
-import com.example.vacationapp.Entities.Vacation;
+import com.example.birdbrain.DAO.ExcursionDAO;
+import com.example.birdbrain.DAO.BirdDAO;
+import com.example.birdbrain.Entities.Excursion;
+import com.example.birdbrain.Entities.Bird;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -14,22 +14,22 @@ import java.util.concurrent.Executors;
 
 public class Repository {
     private ExcursionDAO mExcursionDAO;
-    private VacationDAO mVacationDAO;
-    private List<Vacation> mAllVacations;
+    private BirdDAO mBirdDAO;
+    private List<Bird> mAllBirds;
     private List<Excursion> mAllExcursions;
 
     private static int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
     public Repository(Application application) {
-        VacationDatabaseBuilder db = VacationDatabaseBuilder.getDatabase(application);
+        BirdDatabaseBuilder db = BirdDatabaseBuilder.getDatabase(application);
         mExcursionDAO = db.excursionDAO();
-        mVacationDAO = db.vacationDAO();
+        mBirdDAO = db.birdDAO();
     }
 
-    public List<Vacation> getAllVacations() {
+    public List<Bird> getAllBirds() {
         databaseExecutor.execute(() -> {
-            mAllVacations = mVacationDAO.getAllVacations();
+            mAllBirds = mBirdDAO.getAllBirds();
         });
 
         try {
@@ -37,23 +37,12 @@ public class Repository {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return mAllVacations;
+        return mAllBirds;
     }
 
-    public void insert(Vacation vacation) {
+    public void insert(Bird bird) {
         databaseExecutor.execute(() -> {
-            mVacationDAO.insert(vacation);
-        });
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void update(Vacation vacation) {
-        databaseExecutor.execute(() -> {
-            mVacationDAO.update(vacation);
+            mBirdDAO.insert(bird);
         });
         try {
             Thread.sleep(1000);
@@ -62,9 +51,20 @@ public class Repository {
         }
     }
 
-    public void delete(Vacation vacation) {
+    public void update(Bird bird) {
         databaseExecutor.execute(() -> {
-            mVacationDAO.delete(vacation);
+            mBirdDAO.update(bird);
+        });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void delete(Bird bird) {
+        databaseExecutor.execute(() -> {
+            mBirdDAO.delete(bird);
         });
         try {
             Thread.sleep(1000);

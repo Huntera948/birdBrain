@@ -1,4 +1,4 @@
-package com.example.vacationapp;
+package com.example.birdbrain;
 
 import org.junit.Test;
 

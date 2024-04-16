@@ -2,13 +2,13 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Save Vacation"
-        android:id="@+id/vacationsave"/>
-    <item android:title="Delete Vacation"
-        android:id="@+id/vacationdelete"/>
+    <item android:title="Save Bird"
+        android:id="@+id/birdsave"/>
+    <item android:title="Delete Bird"
+        android:id="@+id/birddelete"/>
     <item android:title="Add Sample Excursions"
         android:id="@+id/addSampleExcursions"/>
-    <item android:title="Share Vacation Details"
+    <item android:title="Share Bird Details"
         android:orderInCategory="100"
         android:id="@+id/share"/>
     <item android:title="Notify"

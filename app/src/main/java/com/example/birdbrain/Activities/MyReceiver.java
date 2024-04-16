@@ -1,4 +1,4 @@
-package com.example.vacationapp.Activities;
+package com.example.birdbrain.Activities;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 
-import com.example.vacationapp.R;
+import com.example.birdbrain.R;
 
 public class MyReceiver extends BroadcastReceiver {
     String channel_id = "test";

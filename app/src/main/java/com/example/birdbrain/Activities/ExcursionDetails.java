@@ -1,4 +1,4 @@
-package com.example.vacationapp.Activities;
+package com.example.birdbrain.Activities;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -16,10 +16,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.vacationapp.Database.Repository;
-import com.example.vacationapp.Entities.Excursion;
-import com.example.vacationapp.Entities.Vacation;
-import com.example.vacationapp.R;
+import com.example.birdbrain.Database.Repository;
+import com.example.birdbrain.Entities.Excursion;
+import com.example.birdbrain.Entities.Bird;
+import com.example.birdbrain.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,10 +33,10 @@ public class ExcursionDetails extends AppCompatActivity {
     String name;
     String date;
     EditText editName;
-    String vacationStartDate;
-    String vacationEndDate;
+    String birdStartDate;
+    String birdEndDate;
     int excursionID;
-    int vacationID;
+    int birdID;
     EditText editNote;
     EditText editDate;
     Repository repository;
@@ -50,19 +50,19 @@ public class ExcursionDetails extends AppCompatActivity {
         editName = findViewById(R.id.excursionName);
         editName.setText(name);
         excursionID = getIntent().getIntExtra("id", -1);
-        vacationID = getIntent().getIntExtra("vacationID", -1);
+        birdID = getIntent().getIntExtra("birdID", -1);
         editNote = findViewById(R.id.note);
         date = getIntent().getStringExtra("date");
         editDate = findViewById(R.id.date);
         editDate.setText(date);
-        vacationStartDate = getIntent().getStringExtra("vacationStartDate");
-        vacationEndDate = getIntent().getStringExtra("vacationEndDate");
-        Log.d("ExcursionDetails", "Excursion Details: Start Date: " + vacationStartDate + ", End Date: " + vacationEndDate);
+        birdStartDate = getIntent().getStringExtra("birdStartDate");
+        birdEndDate = getIntent().getStringExtra("birdEndDate");
+        Log.d("ExcursionDetails", "Excursion Details: Start Date: " + birdStartDate + ", End Date: " + birdEndDate);
         repository = new Repository(getApplication());
-        ArrayList<Vacation> vacationArrayList = new ArrayList<>(repository.getAllVacations());
-        ArrayList<Integer> vacationIdList = new ArrayList<>();
-        for (Vacation vacation : vacationArrayList) {
-            vacationIdList.add(vacation.getVacationID());
+        ArrayList<Bird> birdArrayList = new ArrayList<>(repository.getAllBirds());
+        ArrayList<Integer> birdIdList = new ArrayList<>();
+        for (Bird bird : birdArrayList) {
+            birdIdList.add(bird.getBirdID());
         }
     }
 
@@ -92,12 +92,12 @@ public class ExcursionDetails extends AppCompatActivity {
                 SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy", Locale.US);
                 try {
                     Date excursionDate = sdf.parse(dateFromScreen);
-                    Date startDate = sdf.parse(vacationStartDate);
-                    Date endDate = sdf.parse(vacationEndDate);
+                    Date startDate = sdf.parse(birdStartDate);
+                    Date endDate = sdf.parse(birdEndDate);
 
-                    // Check if the excursion date is within the vacation date range
+                    // Check if the excursion date is within the bird date range
                     if (excursionDate.before(startDate) || excursionDate.after(endDate)) {
-                        Toast.makeText(ExcursionDetails.this, "Excursion date must be between vacation start and end dates", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ExcursionDetails.this, "Excursion date must be between bird start and end dates", Toast.LENGTH_LONG).show();
                         return true;
                     }
 
@@ -106,10 +106,10 @@ public class ExcursionDetails extends AppCompatActivity {
                     if (excursionID == -1) {  // Handling for new excursion
                         excursionID = repository.getAllExcursions().size() == 0 ? 1 :
                                 repository.getAllExcursions().get(repository.getAllExcursions().size() - 1).getExcursionID() + 1;
-                        excursion = new Excursion(excursionID, editName.getText().toString(), vacationID, dateFromScreen);
+                        excursion = new Excursion(excursionID, editName.getText().toString(), birdID, dateFromScreen);
                         repository.insert(excursion);
                     } else {  // Handling for updating an existing excursion
-                        excursion = new Excursion(excursionID, editName.getText().toString(), vacationID, dateFromScreen);
+                        excursion = new Excursion(excursionID, editName.getText().toString(), birdID, dateFromScreen);
                         repository.update(excursion);
                     }
                 } catch (ParseException e) {

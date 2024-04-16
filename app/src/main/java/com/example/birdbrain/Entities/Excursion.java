@@ -1,4 +1,4 @@
-package com.example.vacationapp.Entities;
+package com.example.birdbrain.Entities;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -8,13 +8,13 @@ public class Excursion {
     @PrimaryKey(autoGenerate = true)
     private int excursionID;
     private String excursionName;
-    private int vacationID;
+    private int birdID;
     private String excursionDate;
 
-    public Excursion(int excursionID, String excursionName, int vacationID, String excursionDate) {
+    public Excursion(int excursionID, String excursionName, int birdID, String excursionDate) {
         this.excursionID = excursionID;
         this.excursionName = excursionName;
-        this.vacationID = vacationID;
+        this.birdID = birdID;
         this.excursionDate = excursionDate;
     }
 
@@ -34,12 +34,12 @@ public class Excursion {
         this.excursionName = excursionName;
     }
 
-    public int getVacationID() {
-        return vacationID;
+    public int getBirdID() {
+        return birdID;
     }
 
-    public void setVacationID(int vacationID) {
-        this.vacationID = vacationID;
+    public void setBirdID(int birdID) {
+        this.birdID = birdID;
     }
 
     public String getExcursionDate() {

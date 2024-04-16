@@ -1,4 +1,4 @@
-package com.example.vacationapp.DAO;
+package com.example.birdbrain.DAO;
 
 
 import androidx.room.Dao;
@@ -8,7 +8,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.example.vacationapp.Entities.Excursion;
+import com.example.birdbrain.Entities.Excursion;
 
 import java.util.List;
 

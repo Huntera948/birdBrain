@@ -1,9 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.MyVacationApp" parent="Theme.Material3.DayNight">
+    <style name="Base.Theme.MyBirdApp" parent="Theme.Material3.DayNight">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.MyVacationApp" parent="Base.Theme.MyVacationApp" />
+    <style name="Theme.MyBirdApp" parent="Base.Theme.MyBirdApp" />
 </resources>

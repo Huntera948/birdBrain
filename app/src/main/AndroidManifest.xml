@@ -11,7 +11,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MyVacationApp"
+        android:theme="@style/Theme.MyBirdApp"
         android:enableOnBackInvokedCallback="true"
         tools:targetApi="31">
         <receiver
@@ -23,24 +23,24 @@
             android:name=".Activities.ExcursionDetails"
             android:exported="false"
             android:label="Excursion Details"
-            android:parentActivityName="Activities.VacationDetails">
+            android:parentActivityName="Activities.BirdDetails">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activities.VacationDetails"
+            android:name=".Activities.BirdDetails"
             android:exported="false"
-            android:label="Vacation Details"
-            android:parentActivityName="Activities.VacationList">
+            android:label="Bird Details"
+            android:parentActivityName="Activities.BirdList">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Activities.VacationList"
+            android:name=".Activities.BirdList"
             android:exported="false"
-            android:label="Vacation List"
+            android:label="Bird List"
             android:parentActivityName=".Activities.MainActivity">
             <meta-data
                 android:name="android.app.lib_name"

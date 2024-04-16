@@ -1,16 +1,16 @@
 Title and purpose of the application:
 
-    Title: VacationApp
+    Title: BirdApp
 
-    Purpose: To log and track vacation and associated excursion information.
+    Purpose: To log and track bird and associated excursion information.
 
 Directions for how to operate the application and reach all the rubric aspects:
 
-    From the home screen, click Enter to get to the Vacation List page.
-    Add Sample vacations from the menu on the Vacation List page.
-    Update vacations or excursions using the action button in the bottom right corner.
-    Edit vacation or excursion details by typing in the fields and then saving using the menu.
-    Share vacation details and notify yourself of upcoming vacations or excursions using the Share and Notify buttons in the menus.
+    From the home screen, click Enter to get to the Bird List page.
+    Add Sample birds from the menu on the Bird List page.
+    Update birds or excursions using the action button in the bottom right corner.
+    Edit bird or excursion details by typing in the fields and then saving using the menu.
+    Share bird details and notify yourself of upcoming birds or excursions using the Share and Notify buttons in the menus.
 
 Android version to which the signed APK is deployed:
 

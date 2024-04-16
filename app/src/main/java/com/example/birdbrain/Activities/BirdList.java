@@ -1,4 +1,4 @@
-package com.example.vacationapp.Activities;
+package com.example.birdbrain.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,41 +10,41 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.vacationapp.R;
+import com.example.birdbrain.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import com.example.vacationapp.Database.Repository;
-import com.example.vacationapp.Entities.Vacation;
+import com.example.birdbrain.Database.Repository;
+import com.example.birdbrain.Entities.Bird;
 
 import java.util.List;
 
-public class VacationList extends AppCompatActivity {
+public class BirdList extends AppCompatActivity {
     private Repository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vacation_list);
+        setContentView(R.layout.activity_bird_list);
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(VacationList.this, VacationDetails.class);
+                Intent intent = new Intent(BirdList.this, BirdDetails.class);
                 startActivity(intent);
             }
         });
         repository = new Repository(getApplication());
-        List<Vacation> allVacations = repository.getAllVacations();
+        List<Bird> allBirds = repository.getAllBirds();
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
-        final VacationAdapter vacationAdapter = new VacationAdapter(this);
-        recyclerView.setAdapter(vacationAdapter);
+        final BirdAdapter birdAdapter = new BirdAdapter(this);
+        recyclerView.setAdapter(birdAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        vacationAdapter.setVacations(allVacations);
+        birdAdapter.setBirds(allBirds);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_vacationlist, menu);
+        getMenuInflater().inflate(R.menu.menu_birdlist, menu);
         return true;
     }
 
@@ -53,23 +53,23 @@ public class VacationList extends AppCompatActivity {
 
         if (item.getItemId() == android.R.id.home) {
             this.finish();
-                //Intent intent=new Intent(VacationList.this, VacationDetails.class);
+                //Intent intent=new Intent(BirdList.this, BirdDetails.class);
                 //startActivity(intent);
             return true;
         }
 
-        if (item.getItemId() == R.id.addSampleVacations) {
+        if (item.getItemId() == R.id.addSampleBirds) {
             Repository repo = new Repository(getApplication());
-            Vacation vacation = new Vacation(1, "Italy Trip", "Hotel Italy", "01/31/95", "01/31/24");
-            repo.insert(vacation);
-            vacation = new Vacation(2, "Greece Trip", "Hotel Greece", "01/31/95", "01/31/24");
-            repo.insert(vacation);
-            List<Vacation> allVacations = repository.getAllVacations();
+            Bird bird = new Bird(1, "Italy Trip", "Hotel Italy", "01/31/95", "01/31/24");
+            repo.insert(bird);
+            bird = new Bird(2, "Greece Trip", "Hotel Greece", "01/31/95", "01/31/24");
+            repo.insert(bird);
+            List<Bird> allBirds = repository.getAllBirds();
             RecyclerView recyclerView = findViewById(R.id.recyclerview);
-            final VacationAdapter vacationAdapter = new VacationAdapter(this);
-            recyclerView.setAdapter(vacationAdapter);
+            final BirdAdapter birdAdapter = new BirdAdapter(this);
+            recyclerView.setAdapter(birdAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            vacationAdapter.setVacations(allVacations);
+            birdAdapter.setBirds(allBirds);
 
             return true;
         }
@@ -80,13 +80,13 @@ public class VacationList extends AppCompatActivity {
     protected void onResume() {
 
         super.onResume();
-        List<Vacation> allVacations = repository.getAllVacations();
+        List<Bird> allBirds = repository.getAllBirds();
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
-        final VacationAdapter vacationAdapter = new VacationAdapter(this);
-        recyclerView.setAdapter(vacationAdapter);
+        final BirdAdapter birdAdapter = new BirdAdapter(this);
+        recyclerView.setAdapter(birdAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        vacationAdapter.setVacations(allVacations);
+        birdAdapter.setBirds(allBirds);
 
-        //Toast.makeText(VacationDetails.this,"refresh list",Toast.LENGTH_LONG).show();
+        //Toast.makeText(BirdDetails.this,"refresh list",Toast.LENGTH_LONG).show();
     }
 }
