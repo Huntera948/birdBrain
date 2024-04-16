@@ -8,14 +8,14 @@ public class Bird {
     @PrimaryKey(autoGenerate = true)
     private int birdID;
     private String birdName;
-    private String birdHotel;
+    private String birdNotes;
     private String birdStartDate;
     private String birdEndDate;
 
-    public Bird(int birdID, String birdName, String birdHotel, String birdStartDate, String birdEndDate) {
+    public Bird(int birdID, String birdName, String birdNotes, String birdStartDate, String birdEndDate) {
         this.birdID = birdID;
         this.birdName = birdName;
-        this.birdHotel = birdHotel;
+        this.birdNotes = birdNotes;
         this.birdStartDate = birdStartDate;
         this.birdEndDate = birdEndDate;
     }
@@ -36,12 +36,12 @@ public class Bird {
         this.birdName = birdName;
     }
 
-    public String getBirdHotel() {
-        return birdHotel;
+    public String getBirdNotes() {
+        return birdNotes;
     }
 
-    public void setBirdHotel(String birdHotel) {
-        this.birdHotel = birdHotel;
+    public void setBirdNotes(String birdNotes) {
+        this.birdNotes = birdNotes;
     }
 
     public String getBirdStartDate() {

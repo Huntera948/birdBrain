@@ -35,12 +35,12 @@ import java.util.regex.Pattern;
 
 public class BirdDetails extends AppCompatActivity {
     String name;
-    String birdHotel;
+    String birdNotes;
     String birdStartDate;
     String birdEndDate;
     int birdID;
     EditText editName;
-    EditText editHotel;
+    EditText editNotes;
     EditText editStartDate;
     EditText editEndDate;
     Repository repository;
@@ -56,10 +56,10 @@ public class BirdDetails extends AppCompatActivity {
         editName = findViewById(R.id.birdname);
         editName.setText(name);
         birdID = intent.getIntExtra("id", -1);
-        editHotel = findViewById(R.id.birdhotel);
-        birdHotel = intent.getStringExtra("hotel");
-        editHotel = findViewById(R.id.birdhotel);
-        editHotel.setText(birdHotel);
+        editNotes = findViewById(R.id.birdnotes);
+        birdNotes = intent.getStringExtra("notes");
+        editNotes = findViewById(R.id.birdnotes);
+        editNotes.setText(birdNotes);
         birdStartDate = intent.getStringExtra("birdStartDate");
         editStartDate = findViewById(R.id.birdstartdate);
         editStartDate.setText(birdStartDate);
@@ -109,7 +109,7 @@ public class BirdDetails extends AppCompatActivity {
                 if (repository.getAllBirds().size() == 0) birdID = 1;
                 else
                     birdID = repository.getAllBirds().get(repository.getAllBirds().size() - 1).getBirdID() + 1;
-                birdHotel = editHotel.getText().toString();
+                birdNotes = editNotes.getText().toString();
                 birdStartDate = editStartDate.getText().toString();
                 birdEndDate = editEndDate.getText().toString();
                 if (!isValidDateFormat(birdStartDate) || !isValidDateFormat(birdEndDate)) {
@@ -120,11 +120,11 @@ public class BirdDetails extends AppCompatActivity {
                     Toast.makeText(BirdDetails.this, "End date must be after start date", Toast.LENGTH_LONG).show();
                     return true;
                 }
-                bird = new Bird(birdID, editName.getText().toString(), editHotel.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString());
+                bird = new Bird(birdID, editName.getText().toString(), editNotes.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString());
                 repository.insert(bird);
             } else {
                 try {
-                    birdHotel = editHotel.getText().toString();
+                    birdNotes = editNotes.getText().toString();
                     birdStartDate = editStartDate.getText().toString();
                     birdEndDate = editEndDate.getText().toString();
                     if (!isValidDateFormat(birdStartDate) || !isValidDateFormat(birdEndDate)) {
@@ -135,7 +135,7 @@ public class BirdDetails extends AppCompatActivity {
                         Toast.makeText(BirdDetails.this, "End date must be after start date", Toast.LENGTH_LONG).show();
                         return true;
                     }
-                    bird = new Bird(birdID, editName.getText().toString(), editHotel.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString());
+                    bird = new Bird(birdID, editName.getText().toString(), editNotes.getText().toString(), editStartDate.getText().toString(), editEndDate.getText().toString());
                     repository.update(bird);
                 } catch (Exception e) {
 
@@ -187,7 +187,7 @@ public class BirdDetails extends AppCompatActivity {
         if (item.getItemId() == R.id.share) {
             String birdDetails = "Bird Details:\n" +
                     "Name: " + name + "\n" +
-                    "Hotel: " + birdHotel + "\n" +
+                    "Notes: " + birdNotes + "\n" +
                     "Start Date: " + birdStartDate + "\n" +
                     "End Date: " + birdEndDate + "\n";
             Intent sendIntent = new Intent();

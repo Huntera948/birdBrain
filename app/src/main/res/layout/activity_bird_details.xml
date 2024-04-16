@@ -58,10 +58,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Bird Hotel (Or Place of Stay)" />
+                    android:text="Bird Notes (Or Place of Stay)" />
 
                 <EditText
-                    android:id="@+id/birdhotel"
+                    android:id="@+id/birdnotes"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>

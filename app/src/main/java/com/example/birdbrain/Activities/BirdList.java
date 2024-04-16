@@ -60,9 +60,9 @@ public class BirdList extends AppCompatActivity {
 
         if (item.getItemId() == R.id.addSampleBirds) {
             Repository repo = new Repository(getApplication());
-            Bird bird = new Bird(1, "Italy Trip", "Hotel Italy", "01/31/95", "01/31/24");
+            Bird bird = new Bird(1, "Black-capped Chickadee", "really fuckin cool bird", "01/31/95", "01/31/24");
             repo.insert(bird);
-            bird = new Bird(2, "Greece Trip", "Hotel Greece", "01/31/95", "01/31/24");
+            bird = new Bird(2, "Sandhill Crane", "fuckin sick bird right here", "01/31/95", "01/31/24");
             repo.insert(bird);
             List<Bird> allBirds = repository.getAllBirds();
             RecyclerView recyclerView = findViewById(R.id.recyclerview);

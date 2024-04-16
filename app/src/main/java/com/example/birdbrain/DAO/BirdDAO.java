@@ -23,6 +23,6 @@ public interface BirdDAO {
     @Delete
     void delete(Bird bird);
 
-    @Query("SELECT * FROM BIRDS ORDER BY birdID ASC")
+    @Query("SELECT * FROM BIRDS ORDER BY BIRDID ASC")
     List<Bird> getAllBirds();
 }

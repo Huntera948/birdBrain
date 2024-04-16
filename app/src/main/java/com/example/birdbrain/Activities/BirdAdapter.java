@@ -20,14 +20,14 @@ public class BirdAdapter extends RecyclerView.Adapter<BirdAdapter.BirdViewHolder
 
     class BirdViewHolder extends RecyclerView.ViewHolder {
         private final TextView birdItemView;
-        private final TextView hotelItemView;
+        private final TextView notesItemView;
         private final TextView startDateItemView;
         private final TextView endDateItemView;
 
         private BirdViewHolder(View itemView) {
             super(itemView);
             birdItemView = itemView.findViewById(R.id.textView);
-            hotelItemView = itemView.findViewById(R.id.birdhotel);
+            notesItemView = itemView.findViewById(R.id.birdnotes);
             startDateItemView = itemView.findViewById(R.id.birdstartdate);
             endDateItemView = itemView.findViewById(R.id.birdenddate);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -38,7 +38,7 @@ public class BirdAdapter extends RecyclerView.Adapter<BirdAdapter.BirdViewHolder
                     Intent intent = new Intent(context, BirdDetails.class);
                     intent.putExtra("id", current.getBirdID());
                     intent.putExtra("name", current.getBirdName());
-                    intent.putExtra("hotel", current.getBirdHotel());
+                    intent.putExtra("notes", current.getBirdNotes());
                     intent.putExtra("birdStartDate", current.getBirdStartDate());
                     intent.putExtra("birdEndDate", current.getBirdEndDate());
 
@@ -69,11 +69,11 @@ public class BirdAdapter extends RecyclerView.Adapter<BirdAdapter.BirdViewHolder
         if (mBirds != null) {
             Bird current = mBirds.get(position);
             String name = current.getBirdName();
-            String hotel = current.getBirdHotel();
+            String notes = current.getBirdNotes();
             String startDate = current.getBirdStartDate();
             String endDate = current.getBirdEndDate();
             //holder.birdItemView.setText(name);
-            String displayText = name + "\nHotel: " + hotel + "\nStart Date: " + startDate + "\nEnd Date: " + endDate;
+            String displayText = name + "\nNotes: " + notes + "\nStart Date: " + startDate + "\nEnd Date: " + endDate;
             holder.birdItemView.setText(displayText);
         } else {
             holder.birdItemView.setText("No bird name");
