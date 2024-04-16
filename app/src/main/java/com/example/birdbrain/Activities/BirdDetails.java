@@ -34,14 +34,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class BirdDetails extends AppCompatActivity {
-    String name;
-    String birdNotes;
-    String birdSightingDate;
-    String birdLocationDescription;
     int birdID;
+    String name;
     EditText editName;
+    String birdNotes;
     EditText editNotes;
+    String birdSightingDate;
     EditText editSightingDate;
+    String birdLocationDescription;
     EditText editBirdLocationDescription;
     Repository repository;
     Bird currentBird;
@@ -110,27 +110,12 @@ public class BirdDetails extends AppCompatActivity {
                     birdID = repository.getAllBirds().get(repository.getAllBirds().size() - 1).getBirdID() + 1;
                 birdNotes = editNotes.getText().toString();
                 birdSightingDate = editSightingDate.getText().toString();
-                birdLocationDescription = editBirdLocationDescription.getText().toString();
-                if (!isValidDateFormat(birdSightingDate) || !isValidDateFormat(birdLocationDescription)) {
+                if (!isValidDateFormat(birdSightingDate)) {
                     Toast.makeText(BirdDetails.this, "Invalid date format. Please use MM/dd/yy", Toast.LENGTH_LONG).show();
                     return true;
                 }
                 bird = new Bird(birdID, editName.getText().toString(), editNotes.getText().toString(), editSightingDate.getText().toString(), editBirdLocationDescription.getText().toString());
                 repository.insert(bird);
-            } else {
-                try {
-                    birdNotes = editNotes.getText().toString();
-                    birdSightingDate = editSightingDate.getText().toString();
-                    birdLocationDescription = editBirdLocationDescription.getText().toString();
-                    if (!isValidDateFormat(birdSightingDate) || !isValidDateFormat(birdLocationDescription)) {
-                        Toast.makeText(BirdDetails.this, "Invalid date format. Both dates must be filled in and entered as MM/dd/yy", Toast.LENGTH_LONG).show();
-                        return true;
-                    }
-                    bird = new Bird(birdID, editName.getText().toString(), editNotes.getText().toString(), editSightingDate.getText().toString(), editBirdLocationDescription.getText().toString());
-                    repository.update(bird);
-                } catch (Exception e) {
-
-                }
             }
             return true;
         }
@@ -179,8 +164,8 @@ public class BirdDetails extends AppCompatActivity {
             String birdDetails = "Bird Details:\n" +
                     "Name: " + name + "\n" +
                     "Notes: " + birdNotes + "\n" +
-                    "Start Date: " + birdSightingDate + "\n" +
-                    "End Date: " + birdLocationDescription + "\n";
+                    "Sighting Date: " + birdSightingDate + "\n" +
+                    "Location Description: " + birdLocationDescription + "\n";
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
             sendIntent.putExtra(Intent.EXTRA_TEXT, birdDetails);
@@ -191,30 +176,30 @@ public class BirdDetails extends AppCompatActivity {
             return true;
         }
         if (item.getItemId() == R.id.notify) {
-            String myFormat = "MM/dd/yy";
-            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-            try {
-                Date sightingDate = sdf.parse(birdSightingDate);
-                Long startTrigger = sightingDate.getTime();
-                Intent startIntent = new Intent(BirdDetails.this, MyReceiver.class);
-                startIntent.putExtra("key", "Bird '" + name + "' is starting.");
-                PendingIntent startSender = PendingIntent.getBroadcast(BirdDetails.this, ++MainActivity.numAlert, startIntent, PendingIntent.FLAG_IMMUTABLE);
-                AlarmManager startAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                startAlarmManager.set(AlarmManager.RTC_WAKEUP, startTrigger, startSender);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            try {
-                Date endDate = sdf.parse(birdLocationDescription);
-                Long endTrigger = endDate.getTime();
-                Intent endIntent = new Intent(BirdDetails.this, MyReceiver.class);
-                endIntent.putExtra("key", "Bird '" + name + "' is ending.");
-                PendingIntent endSender = PendingIntent.getBroadcast(BirdDetails.this, ++MainActivity.numAlert, endIntent, PendingIntent.FLAG_IMMUTABLE);
-                AlarmManager endAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                endAlarmManager.set(AlarmManager.RTC_WAKEUP, endTrigger, endSender);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+//            String myFormat = "MM/dd/yy";
+//            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+//            try {
+//                Date sightingDate = sdf.parse(birdSightingDate);
+//                Long startTrigger = sightingDate.getTime();
+//                Intent startIntent = new Intent(BirdDetails.this, MyReceiver.class);
+//                startIntent.putExtra("key", "Bird '" + name + "' is starting.");
+//                PendingIntent startSender = PendingIntent.getBroadcast(BirdDetails.this, ++MainActivity.numAlert, startIntent, PendingIntent.FLAG_IMMUTABLE);
+//                AlarmManager startAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+//                startAlarmManager.set(AlarmManager.RTC_WAKEUP, startTrigger, startSender);
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//            try {
+//                Date endDate = sdf.parse(birdLocationDescription);
+//                Long endTrigger = endDate.getTime();
+//                Intent endIntent = new Intent(BirdDetails.this, MyReceiver.class);
+//                endIntent.putExtra("key", "Bird '" + name + "' is ending.");
+//                PendingIntent endSender = PendingIntent.getBroadcast(BirdDetails.this, ++MainActivity.numAlert, endIntent, PendingIntent.FLAG_IMMUTABLE);
+//                AlarmManager endAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+//                endAlarmManager.set(AlarmManager.RTC_WAKEUP, endTrigger, endSender);
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
             return true;
         }
         return super.onOptionsItemSelected(item);

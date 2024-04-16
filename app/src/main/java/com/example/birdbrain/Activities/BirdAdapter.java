@@ -68,11 +68,10 @@ public class BirdAdapter extends RecyclerView.Adapter<BirdAdapter.BirdViewHolder
         if (mBirds != null) {
             Bird current = mBirds.get(position);
             String name = current.getBirdName();
-            String notes = current.getBirdNotes();
             String sightingDate = current.getBirdSightingDate();
             String locationDescription = current.getBirdLocationDescription();
             //holder.birdItemView.setText(name);
-            String displayText = name + "\nNotes: " + notes + "\nSighting Date: " + sightingDate + "\nLocation Description: " + locationDescription;
+            String displayText = name + "\nSighting Date: " + sightingDate + "\nLocation: " + locationDescription;
             holder.birdItemView.setText(displayText);
         } else {
             holder.birdItemView.setText("No bird name");

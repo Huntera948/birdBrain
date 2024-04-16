@@ -46,7 +46,7 @@
 
                 <EditText
                     android:id="@+id/birdname"
-                    android:layout_width="100dp"
+                    android:layout_width="323dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
@@ -58,11 +58,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Bird Notes (Or Place of Stay)" />
+                    android:text="Bird Notes" />
 
                 <EditText
                     android:id="@+id/birdnotes"
-                    android:layout_width="100dp"
+                    android:layout_width="313dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
@@ -74,11 +74,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Start Date" />
+                    android:text="Sighting Date" />
 
                 <EditText
                     android:id="@+id/birdsightingdate"
-                    android:layout_width="100dp"
+                    android:layout_width="297dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
@@ -90,11 +90,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="End Date" />
+                    android:text="Location Description" />
 
                 <EditText
                     android:id="@+id/locationdescription"
-                    android:layout_width="100dp"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>
         </LinearLayout>
