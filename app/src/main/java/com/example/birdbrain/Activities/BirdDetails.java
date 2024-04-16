@@ -116,11 +116,7 @@ public class BirdDetails extends AppCompatActivity {
                     Toast.makeText(BirdDetails.this, "Invalid date format. Please use MM/dd/yy", Toast.LENGTH_LONG).show();
                     return true;
                 }
-                if (!isEndDateAfterSightingDate(birdSightingDate, birdEndDate)) {
-                    Toast.makeText(BirdDetails.this, "End date must be after start date", Toast.LENGTH_LONG).show();
-                    return true;
-                }
-                bird = new Bird(birdID, editName.getText().toString(), editNotes.getText().toString(), editSightingDate.getText().toString(), editEndDate.getText().toString());
+                bird = new Bird(birdID, editName.getText().toString(), editNotes.getText().toString(), editSightingDate.getText().toString());
                 repository.insert(bird);
             } else {
                 try {
@@ -131,11 +127,7 @@ public class BirdDetails extends AppCompatActivity {
                         Toast.makeText(BirdDetails.this, "Invalid date format. Both dates must be filled in and entered as MM/dd/yy", Toast.LENGTH_LONG).show();
                         return true;
                     }
-                    if (!isEndDateAfterSightingDate(birdSightingDate, birdEndDate)) {
-                        Toast.makeText(BirdDetails.this, "End date must be after start date", Toast.LENGTH_LONG).show();
-                        return true;
-                    }
-                    bird = new Bird(birdID, editName.getText().toString(), editNotes.getText().toString(), editSightingDate.getText().toString(), editEndDate.getText().toString());
+                    bird = new Bird(birdID, editName.getText().toString(), editNotes.getText().toString(), editSightingDate.getText().toString());
                     repository.update(bird);
                 } catch (Exception e) {
 
@@ -249,17 +241,5 @@ public class BirdDetails extends AppCompatActivity {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(date);
         return matcher.matches();
-    }
-
-    private boolean isEndDateAfterSightingDate(String sightingDate, String endDate) {
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yy");
-        try {
-            Date sightingDateObj = format.parse(sightingDate);
-            Date endDateObj = format.parse(endDate);
-            return endDateObj.after(sightingDateObj);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return false;
-        }
     }
 }

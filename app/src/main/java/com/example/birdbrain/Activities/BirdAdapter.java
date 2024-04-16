@@ -40,8 +40,6 @@ public class BirdAdapter extends RecyclerView.Adapter<BirdAdapter.BirdViewHolder
                     intent.putExtra("name", current.getBirdName());
                     intent.putExtra("notes", current.getBirdNotes());
                     intent.putExtra("birdSightingDate", current.getBirdSightingDate());
-                    intent.putExtra("birdEndDate", current.getBirdEndDate());
-
                     context.startActivity(intent);
                 }
             });
@@ -71,9 +69,8 @@ public class BirdAdapter extends RecyclerView.Adapter<BirdAdapter.BirdViewHolder
             String name = current.getBirdName();
             String notes = current.getBirdNotes();
             String sightingDate = current.getBirdSightingDate();
-            String endDate = current.getBirdEndDate();
             //holder.birdItemView.setText(name);
-            String displayText = name + "\nNotes: " + notes + "\nSighting Date: " + sightingDate + "\nEnd Date: " + endDate;
+            String displayText = name + "\nNotes: " + notes + "\nSighting Date: " + sightingDate;
             holder.birdItemView.setText(displayText);
         } else {
             holder.birdItemView.setText("No bird name");
