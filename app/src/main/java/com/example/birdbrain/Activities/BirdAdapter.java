@@ -22,14 +22,14 @@ public class BirdAdapter extends RecyclerView.Adapter<BirdAdapter.BirdViewHolder
         private final TextView birdItemView;
         private final TextView notesItemView;
         private final TextView sightingDateItemView;
-        private final TextView endDateItemView;
+        private final TextView locationDescriptionItemView;
 
         private BirdViewHolder(View itemView) {
             super(itemView);
             birdItemView = itemView.findViewById(R.id.textView);
             notesItemView = itemView.findViewById(R.id.birdnotes);
             sightingDateItemView = itemView.findViewById(R.id.birdsightingdate);
-            endDateItemView = itemView.findViewById(R.id.birdenddate);
+            locationDescriptionItemView = itemView.findViewById(R.id.locationdescription);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -40,6 +40,7 @@ public class BirdAdapter extends RecyclerView.Adapter<BirdAdapter.BirdViewHolder
                     intent.putExtra("name", current.getBirdName());
                     intent.putExtra("notes", current.getBirdNotes());
                     intent.putExtra("birdSightingDate", current.getBirdSightingDate());
+                    intent.putExtra("birdLocationDescription", current.getBirdLocationDescription());
                     context.startActivity(intent);
                 }
             });
@@ -69,8 +70,9 @@ public class BirdAdapter extends RecyclerView.Adapter<BirdAdapter.BirdViewHolder
             String name = current.getBirdName();
             String notes = current.getBirdNotes();
             String sightingDate = current.getBirdSightingDate();
+            String locationDescription = current.getBirdLocationDescription();
             //holder.birdItemView.setText(name);
-            String displayText = name + "\nNotes: " + notes + "\nSighting Date: " + sightingDate;
+            String displayText = name + "\nNotes: " + notes + "\nSighting Date: " + sightingDate + "\nLocation Description: " + locationDescription;
             holder.birdItemView.setText(displayText);
         } else {
             holder.birdItemView.setText("No bird name");

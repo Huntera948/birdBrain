@@ -11,11 +11,14 @@ public class Bird {
     private String birdNotes;
     private String birdSightingDate;
 
-    public Bird(int birdID, String birdName, String birdNotes, String birdSightingDate) {
+    private String birdLocationDescription;
+
+    public Bird(int birdID, String birdName, String birdNotes, String birdSightingDate, String birdLocationDescription) {
         this.birdID = birdID;
         this.birdName = birdName;
         this.birdNotes = birdNotes;
         this.birdSightingDate = birdSightingDate;
+        this.birdLocationDescription = birdLocationDescription;
     }
 
     public int getBirdID() {
@@ -48,6 +51,14 @@ public class Bird {
 
     public void setBirdSightingDate(String birdSightingDate) {
         this.birdSightingDate = birdSightingDate;
+    }
+
+    public String getBirdLocationDescription() {
+        return birdLocationDescription;
+    }
+
+    public void setBirdLocationDescription(String birdLocationDescription) {
+        this.birdLocationDescription = birdLocationDescription;
     }
 
 }

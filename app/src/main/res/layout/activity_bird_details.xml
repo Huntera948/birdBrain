@@ -93,7 +93,7 @@
                     android:text="End Date" />
 
                 <EditText
-                    android:id="@+id/birdenddate"
+                    android:id="@+id/locationdescription"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>

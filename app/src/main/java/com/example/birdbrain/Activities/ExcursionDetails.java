@@ -34,7 +34,7 @@ public class ExcursionDetails extends AppCompatActivity {
     String date;
     EditText editName;
     String birdSightingDate;
-    String birdEndDate;
+    String birdLocationDescription;
     int excursionID;
     int birdID;
     EditText editNote;
@@ -56,8 +56,8 @@ public class ExcursionDetails extends AppCompatActivity {
         editDate = findViewById(R.id.date);
         editDate.setText(date);
         birdSightingDate = getIntent().getStringExtra("birdSightingDate");
-        birdEndDate = getIntent().getStringExtra("birdEndDate");
-        Log.d("ExcursionDetails", "Excursion Details: Start Date: " + birdSightingDate + ", End Date: " + birdEndDate);
+        birdLocationDescription = getIntent().getStringExtra("birdLocationDescription");
+        Log.d("ExcursionDetails", "Excursion Details: Start Date: " + birdSightingDate + ", End Date: " + birdLocationDescription);
         repository = new Repository(getApplication());
         ArrayList<Bird> birdArrayList = new ArrayList<>(repository.getAllBirds());
         ArrayList<Integer> birdIdList = new ArrayList<>();
@@ -93,7 +93,7 @@ public class ExcursionDetails extends AppCompatActivity {
                 try {
                     Date excursionDate = sdf.parse(dateFromScreen);
                     Date sightingDate = sdf.parse(birdSightingDate);
-                    Date endDate = sdf.parse(birdEndDate);
+                    Date endDate = sdf.parse(birdLocationDescription);
 
                     // Check if the excursion date is within the bird date range
                     if (excursionDate.before(sightingDate) || excursionDate.after(endDate)) {

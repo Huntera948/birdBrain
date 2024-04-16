@@ -39,8 +39,8 @@ public class ExcursionAdapter extends RecyclerView.Adapter<ExcursionAdapter.Excu
                     intent.putExtra("birdID", current.getBirdID());
                     intent.putExtra("date", current.getExcursionDate());
                     intent.putExtra("birdSightingDate", birdSightingDate);
-                    intent.putExtra("birdEndDate", birdEndDate);
-                    Log.d("ExcursionDetails", "Excursion Adapter: Start Date: " + birdSightingDate + ", End Date: " + birdEndDate);
+                    intent.putExtra("birdLocationDescription", birdLocationDescription);
+                    Log.d("ExcursionDetails", "Excursion Adapter: Start Date: " + birdSightingDate + ", End Date: " + birdLocationDescription);
                     context.startActivity(intent);
                 }
             });
@@ -48,13 +48,13 @@ public class ExcursionAdapter extends RecyclerView.Adapter<ExcursionAdapter.Excu
     }
 
     private String birdSightingDate;
-    private String birdEndDate;
+    private String birdLocationDescription;
 
     public ExcursionAdapter(Context context, String sightingDate, String endDate) {
         mInflater = LayoutInflater.from(context);
         this.context = context;
         this.birdSightingDate = sightingDate;
-        this.birdEndDate = endDate;
+        this.birdLocationDescription = endDate;
     }
 
     @NonNull
