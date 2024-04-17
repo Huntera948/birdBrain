@@ -6,8 +6,6 @@
         android:id="@+id/birdsave"/>
     <item android:title="Delete Bird"
         android:id="@+id/birddelete"/>
-    <item android:title="Add Sample Excursions"
-        android:id="@+id/addSampleExcursions"/>
     <item android:title="Share Bird Details"
         android:orderInCategory="100"
         android:id="@+id/share"/>

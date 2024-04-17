@@ -43,7 +43,6 @@ public class BirdDetails extends AppCompatActivity {
     EditText editBirdLocationDescription;
     Repository repository;
     Bird currentBird;
-    int numExcursions;
     private TextView dateTextView;
     private Button dateButton;
 
@@ -70,10 +69,7 @@ public class BirdDetails extends AppCompatActivity {
         editBirdLocationDescription = findViewById(R.id.locationdescription);
         editBirdLocationDescription.setText(birdLocationDescription);
         // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        RecyclerView recyclerView = findViewById(R.id.excursionrecyclerview);
         repository = new Repository(getApplication());
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        FloatingActionButton fab = findViewById(R.id.floatingActionButton2);
 
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
