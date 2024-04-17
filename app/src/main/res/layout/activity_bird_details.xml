@@ -62,7 +62,7 @@
 
                 <EditText
                     android:id="@+id/birdnotes"
-                    android:layout_width="313dp"
+                    android:layout_width="311dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
@@ -78,7 +78,7 @@
 
                 <EditText
                     android:id="@+id/birdsightingdate"
-                    android:layout_width="297dp"
+                    android:layout_width="296dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
@@ -94,7 +94,7 @@
 
                 <EditText
                     android:id="@+id/locationdescription"
-                    android:layout_width="250dp"
+                    android:layout_width="251dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>
         </LinearLayout>
