@@ -16,17 +16,12 @@ import android.widget.TextView;
 import com.example.birdbrain.Database.Repository;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.birdbrain.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.example.birdbrain.Entities.Bird;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

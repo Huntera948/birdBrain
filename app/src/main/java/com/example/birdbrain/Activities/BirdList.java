@@ -8,10 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.example.birdbrain.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import com.example.birdbrain.Database.Repository;
 import com.example.birdbrain.Entities.Bird;
@@ -25,14 +23,6 @@ public class BirdList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bird_list);
-        FloatingActionButton fab = findViewById(R.id.floatingActionButton);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(BirdList.this, BirdDetails.class);
-                startActivity(intent);
-            }
-        });
         repository = new Repository(getApplication());
         List<Bird> allBirds = repository.getAllBirds();
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
@@ -53,8 +43,8 @@ public class BirdList extends AppCompatActivity {
 
         if (item.getItemId() == android.R.id.home) {
             this.finish();
-                //Intent intent=new Intent(BirdList.this, BirdDetails.class);
-                //startActivity(intent);
+            //Intent intent=new Intent(BirdList.this, BirdDetails.class);
+            //startActivity(intent);
             return true;
         }
 
@@ -70,7 +60,12 @@ public class BirdList extends AppCompatActivity {
             recyclerView.setAdapter(birdAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             birdAdapter.setBirds(allBirds);
+            return true;
+        }
 
+        if (item.getItemId() == R.id.addBird) {
+            Intent intent = new Intent(BirdList.this, BirdDetails.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);

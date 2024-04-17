@@ -10,7 +10,6 @@ public class Bird {
     private String birdName;
     private String birdNotes;
     private String birdSightingDate;
-
     private String birdLocationDescription;
 
     public Bird(int birdID, String birdName, String birdNotes, String birdSightingDate, String birdLocationDescription) {

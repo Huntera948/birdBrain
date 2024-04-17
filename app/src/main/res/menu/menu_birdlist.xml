@@ -4,4 +4,6 @@
 
     <item android:title="Add Sample Bird Data"
         android:id="@+id/addSampleBirds"/>
+    <item android:title="Add Bird"
+        android:id="@+id/addBird"/>
 </menu>
