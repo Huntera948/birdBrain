@@ -55,7 +55,6 @@ public class BirdDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bird_details);
 
-        dateTextView = findViewById(R.id.textview_date);
         dateButton = findViewById(R.id.birdsightingdate);
 
         Intent intent = getIntent();
@@ -112,7 +111,7 @@ public class BirdDetails extends AppCompatActivity {
                                 selectedDate.set(year, monthOfYear, dayOfMonth);
                                 SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy", Locale.US);
                                 birdSightingDate = sdf.format(selectedDate.getTime());
-                                dateTextView.setText(birdSightingDate);
+                                dateButton.setText(birdSightingDate);
                             }
                         }, year, month, day);
                 datePickerDialog.show();

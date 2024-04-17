@@ -66,11 +66,11 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="195dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="95dp"
                     android:layout_height="wrap_content"
                     android:text="Sighting Date" />
 
@@ -81,14 +81,6 @@
                     android:layout_centerInParent="true"
                     android:text="Select Date" />
 
-                <TextView
-                    android:id="@+id/textview_date"
-                    android:layout_width="140dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/birdsightingdate"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="20dp"
-                    android:text="No date selected" />
             </LinearLayout>
 
             <LinearLayout
