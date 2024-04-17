@@ -7,16 +7,12 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.example.birdbrain.DAO.ExcursionDAO;
 import com.example.birdbrain.DAO.BirdDAO;
-import com.example.birdbrain.Entities.Excursion;
 import com.example.birdbrain.Entities.Bird;
 
-@Database(entities = {Bird.class, Excursion.class}, version = 1, exportSchema = false)
+@Database(entities = {Bird.class}, version = 2, exportSchema = false)
 public abstract class BirdDatabaseBuilder extends RoomDatabase {
     public abstract BirdDAO birdDAO();
-
-    public abstract ExcursionDAO excursionDAO();
 
     private static volatile BirdDatabaseBuilder INSTANCE;
 

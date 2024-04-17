@@ -9,8 +9,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.app.DatePickerDialog;
-import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -21,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.birdbrain.Entities.Excursion;
 import com.example.birdbrain.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.example.birdbrain.Entities.Bird;
@@ -75,25 +72,8 @@ public class BirdDetails extends AppCompatActivity {
         // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         RecyclerView recyclerView = findViewById(R.id.excursionrecyclerview);
         repository = new Repository(getApplication());
-        final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this, birdSightingDate, birdLocationDescription);
-        recyclerView.setAdapter(excursionAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        List<Excursion> filteredExcursions = new ArrayList<>();
-        for (Excursion p : repository.getAllExcursions()) {
-            if (p.getBirdID() == birdID) filteredExcursions.add(p);
-        }
-        excursionAdapter.setExcursions(filteredExcursions);
         FloatingActionButton fab = findViewById(R.id.floatingActionButton2);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(BirdDetails.this, ExcursionDetails.class);
-                intent.putExtra("birdID", birdID);
-                intent.putExtra("birdSightingDate", birdSightingDate);
-                intent.putExtra("birdLocationDescription", birdLocationDescription);
-                startActivity(intent);
-            }
-        });
 
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,7 +97,6 @@ public class BirdDetails extends AppCompatActivity {
                 datePickerDialog.show();
             }
         });
-
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -165,42 +144,9 @@ public class BirdDetails extends AppCompatActivity {
             for (Bird prod : repository.getAllBirds()) {
                 if (prod.getBirdID() == birdID) currentBird = prod;
             }
-            numExcursions = 0;
-            for (Excursion excursion : repository.getAllExcursions()) {
-                if (excursion.getBirdID() == birdID) ++numExcursions;
-            }
-            if (numExcursions == 0) {
-                repository.delete(currentBird);
-                Toast.makeText(BirdDetails.this, currentBird.getBirdName() + " was deleted", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(BirdDetails.this, "Can't delete a bird with excursions", Toast.LENGTH_LONG).show();
-            }
+            repository.delete(currentBird);
+            Toast.makeText(BirdDetails.this, currentBird.getBirdName() + " was deleted", Toast.LENGTH_LONG).show();
             return true;
-        }
-        if (item.getItemId() == R.id.addSampleExcursions) {
-            if (birdID == -1)
-                Toast.makeText(BirdDetails.this, "Please save bird before adding excursions", Toast.LENGTH_LONG).show();
-            else {
-                int excursionID;
-
-                if (repository.getAllExcursions().size() == 0) excursionID = 1;
-                else
-                    excursionID = repository.getAllExcursions().get(repository.getAllExcursions().size() - 1).getExcursionID() + 1;
-                Excursion excursion = new Excursion(excursionID, "spa day", birdID, "02/01/95");
-                repository.insert(excursion);
-                excursion = new Excursion(++excursionID, "museum", birdID, "02/01/95");
-                repository.insert(excursion);
-                RecyclerView recyclerView = findViewById(R.id.excursionrecyclerview);
-                final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this, birdSightingDate, birdLocationDescription);
-                recyclerView.setAdapter(excursionAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(this));
-                List<Excursion> filteredExcursions = new ArrayList<>();
-                for (Excursion p : repository.getAllExcursions()) {
-                    if (p.getBirdID() == birdID) filteredExcursions.add(p);
-                }
-                excursionAdapter.setExcursions(filteredExcursions);
-                return true;
-            }
         }
         if (item.getItemId() == R.id.share) {
             String birdDetails = "Bird Details:\n" +
@@ -250,15 +196,6 @@ public class BirdDetails extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        RecyclerView recyclerView = findViewById(R.id.excursionrecyclerview);
-        final ExcursionAdapter excursionAdapter = new ExcursionAdapter(this, birdSightingDate, birdLocationDescription);
-        recyclerView.setAdapter(excursionAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        List<Excursion> filteredExcursions = new ArrayList<>();
-        for (Excursion p : repository.getAllExcursions()) {
-            if (p.getBirdID() == birdID) filteredExcursions.add(p);
-        }
-        excursionAdapter.setExcursions(filteredExcursions);
         //Toast.makeText(BirdDetails.this,"refresh list",Toast.LENGTH_LONG).show();
     }
 
