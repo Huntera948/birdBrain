@@ -1,17 +1,19 @@
 package com.example.birdbrain.Activities;
 
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.app.DatePickerDialog;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.TextView;
 
 import com.example.birdbrain.Database.Repository;
 
@@ -24,10 +26,9 @@ import com.example.birdbrain.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.example.birdbrain.Entities.Bird;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -40,17 +41,23 @@ public class BirdDetails extends AppCompatActivity {
     String birdNotes;
     EditText editNotes;
     String birdSightingDate;
-    EditText editSightingDate;
+    Button editSightingDate;
     String birdLocationDescription;
     EditText editBirdLocationDescription;
     Repository repository;
     Bird currentBird;
     int numExcursions;
+    private TextView dateTextView;
+    private Button dateButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bird_details);
+
+        dateTextView = findViewById(R.id.textview_date);
+        dateButton = findViewById(R.id.birdsightingdate);
+
         Intent intent = getIntent();
         name = intent.getStringExtra("name");
         editName = findViewById(R.id.birdname);
@@ -88,6 +95,30 @@ public class BirdDetails extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        dateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(BirdDetails.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                Calendar selectedDate = Calendar.getInstance();
+                                selectedDate.set(year, monthOfYear, dayOfMonth);
+                                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy", Locale.US);
+                                birdSightingDate = sdf.format(selectedDate.getTime());
+                                dateTextView.setText(birdSightingDate);
+                            }
+                        }, year, month, day);
+                datePickerDialog.show();
+            }
+        });
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -103,22 +134,34 @@ public class BirdDetails extends AppCompatActivity {
             return true;
         }
         if (item.getItemId() == R.id.birdsave) {
-            Bird bird;
+            birdNotes = editNotes.getText().toString();
+            birdLocationDescription = editBirdLocationDescription.getText().toString();
+            name = editName.getText().toString();
+
+            if (!isValidDateFormat(birdSightingDate)) {
+                Toast.makeText(BirdDetails.this, "Invalid date format. Please use MM/dd/yy", Toast.LENGTH_LONG).show();
+                return true;
+            }
+
+            Bird bird = new Bird(birdID, name, birdNotes, birdSightingDate, birdLocationDescription);
+
             if (birdID == -1) {
-                if (repository.getAllBirds().size() == 0) birdID = 1;
-                else
+                if (repository.getAllBirds().size() == 0) {
+                    birdID = 1;
+                } else {
                     birdID = repository.getAllBirds().get(repository.getAllBirds().size() - 1).getBirdID() + 1;
-                birdNotes = editNotes.getText().toString();
-                birdSightingDate = editSightingDate.getText().toString();
-                if (!isValidDateFormat(birdSightingDate)) {
-                    Toast.makeText(BirdDetails.this, "Invalid date format. Please use MM/dd/yy", Toast.LENGTH_LONG).show();
-                    return true;
                 }
-                bird = new Bird(birdID, editName.getText().toString(), editNotes.getText().toString(), editSightingDate.getText().toString(), editBirdLocationDescription.getText().toString());
+                bird.setBirdID(birdID);
                 repository.insert(bird);
+                Toast.makeText(BirdDetails.this, "Bird saved successfully!", Toast.LENGTH_SHORT).show();
+            } else {
+                repository.update(bird);
+                Toast.makeText(BirdDetails.this, "Bird updated successfully!", Toast.LENGTH_SHORT).show();
             }
             return true;
         }
+
+
         if (item.getItemId() == R.id.birddelete) {
             for (Bird prod : repository.getAllBirds()) {
                 if (prod.getBirdID() == birdID) currentBird = prod;
