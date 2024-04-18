@@ -25,4 +25,7 @@ public interface BirdDAO {
 
     @Query("SELECT * FROM BIRDS ORDER BY BIRDID ASC")
     List<Bird> getAllBirds();
+
+    @Query("SELECT * FROM birds WHERE birdID = :birdID")
+    Bird getBirdById(int birdID);
 }

@@ -2,11 +2,14 @@ package com.example.birdbrain.Activities;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.app.DatePickerDialog;
 import android.widget.Button;
@@ -20,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.birdbrain.R;
 import com.example.birdbrain.Entities.Bird;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -41,6 +45,7 @@ public class BirdDetails extends AppCompatActivity {
     Bird currentBird;
     private TextView dateTextView;
     private Button dateButton;
+    private ImageView imageViewBird;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +69,17 @@ public class BirdDetails extends AppCompatActivity {
         birdLocationDescription = intent.getStringExtra("birdLocationDescription");
         editBirdLocationDescription = findViewById(R.id.locationdescription);
         editBirdLocationDescription.setText(birdLocationDescription);
+
+        imageViewBird = findViewById(R.id.imageViewBird);
+
         // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         repository = new Repository(getApplication());
         repository.insertLog("System", "Activity Start", "BirdDetails activity started.");
+
+        Bird bird = repository.getBirdById(birdID);
+        if (bird.getImagePath() != null && !bird.getImagePath().isEmpty()) {
+            loadImageIntoView(bird.getImagePath());
+        }
 
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -203,5 +216,16 @@ public class BirdDetails extends AppCompatActivity {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(date);
         return matcher.matches();
+    }
+    private void loadImageIntoView(String imagePath) {
+        // Check if the imagePath is a local file path
+        File imgFile = new File(imagePath);
+        if (imgFile.exists()) {
+            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            imageViewBird.setImageBitmap(myBitmap);
+        } else {
+            // Optionally handle the case where the image is not found
+            Toast.makeText(this, "Image file not found", Toast.LENGTH_SHORT).show();
+        }
     }
 }

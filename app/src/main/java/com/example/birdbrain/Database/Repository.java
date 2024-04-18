@@ -13,8 +13,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class Repository {
 
@@ -102,5 +105,23 @@ public class Repository {
             e.printStackTrace();
         }
         return mAllLogs;
+    }
+
+    public Bird getBirdById(int birdID) {
+        Callable<Bird> callable = new Callable<Bird>() {
+            @Override
+            public Bird call() throws Exception {
+                return mBirdDAO.getBirdById(birdID);
+            }
+        };
+
+        Future<Bird> future = databaseExecutor.submit(callable);
+        try {
+            // This will block the thread until the callable completes and result is available
+            return future.get();
+        } catch (ExecutionException | InterruptedException e) {
+            Log.e("Repository", "Error getting bird by ID", e);
+            return null;
+        }
     }
 }
