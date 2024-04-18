@@ -10,12 +10,12 @@
               <deviceKey>
                 <Key>
                   <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\alexj\.android\avd\Pixel_8_Pro_API_TiramisuPrivacySandbox.avd" />
+                  <value value="C:\Users\Alex\.android\avd\Pixel_XL_API_34.avd" />
                 </Key>
               </deviceKey>
             </Target>
           </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-04-17T18:32:59.456423900Z" />
+          <timeTargetWasSelectedWithDropDown value="2024-04-18T01:40:24.546381400Z" />
         </State>
       </entry>
     </value>
