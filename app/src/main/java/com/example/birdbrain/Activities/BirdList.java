@@ -44,8 +44,8 @@ public class BirdList extends AppCompatActivity {
 
         if (item.getItemId() == android.R.id.home) {
             this.finish();
-            //Intent intent=new Intent(BirdList.this, BirdDetails.class);
-            //startActivity(intent);
+            Intent intent=new Intent(BirdList.this, MainActivity.class);
+            startActivity(intent);
             repository.insertLog("User", "Navigation", "User navigated back from BirdList.");
             return true;
         }

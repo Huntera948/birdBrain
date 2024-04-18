@@ -14,7 +14,7 @@ import com.example.birdbrain.DAO.LogDAO;
 import com.example.birdbrain.Entities.Bird;
 import com.example.birdbrain.Entities.LogEntry;
 
-@Database(entities = {Bird.class, LogEntry.class}, version = 6, exportSchema = false)
+@Database(entities = {Bird.class, LogEntry.class}, version = 7, exportSchema = false)
 public abstract class BirdDatabaseBuilder extends RoomDatabase {
     public abstract BirdDAO birdDAO();
     public abstract LogDAO logDAO();
