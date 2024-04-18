@@ -3,10 +3,8 @@ package com.example.birdbrain.Utilities;
 import android.content.Context;
 import android.graphics.pdf.PdfDocument;
 import android.graphics.Paint;
-import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
-
 import com.example.birdbrain.Entities.LogEntry;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,22 +31,19 @@ public class PDFGenerator {
 
         document.finishPage(page);
 
-        // Write the document content to a file.
-        String directory_path = Environment.getExternalStorageDirectory().getPath() + "/MyAppLogs/";
-        File file = new File(directory_path);
-        if (!file.exists()) {
-            boolean isDirectoryCreated = file.mkdirs();  // Check if the directory is created successfully
-            if (!isDirectoryCreated) {
-                Log.e("PDFGenerator", "Directory not created");
-                return;  // Stop further execution if directory creation failed
-            }
+        // Writing the document content to an app-specific directory
+        File file = new File(context.getExternalFilesDir(null), "MyAppLogs");
+        if (!file.exists() && !file.mkdirs()) {
+            Log.e("PDFGenerator", "Failed to create directory");
+            return;  // Stop further execution if directory creation failed
         }
-        String targetPdf = directory_path + "logReport.pdf";
+
+        String targetPdf = file.getAbsolutePath() + "/logReport.pdf";
         File filePath = new File(targetPdf);
 
-        try {
-            document.writeTo(new FileOutputStream(filePath));
-            Toast.makeText(context, "PDF file generated successfully.", Toast.LENGTH_SHORT).show();
+        try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
+            document.writeTo(outputStream);
+            Toast.makeText(context, "PDF file generated successfully in app-specific directory.", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(context, "Error in PDF creation: " + e.toString(), Toast.LENGTH_SHORT).show();
@@ -57,4 +52,3 @@ public class PDFGenerator {
         document.close();
     }
 }
-
