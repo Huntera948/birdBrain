@@ -4,15 +4,21 @@ import android.app.Application;
 
 
 import com.example.birdbrain.DAO.BirdDAO;
+import com.example.birdbrain.DAO.LogDAO;
 import com.example.birdbrain.Entities.Bird;
+import com.example.birdbrain.Entities.LogEntry;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Repository {
 
     private BirdDAO mBirdDAO;
+    private LogDAO mLogDAO;
     private List<Bird> mAllBirds;
 
     private static int NUMBER_OF_THREADS = 4;
@@ -21,6 +27,7 @@ public class Repository {
     public Repository(Application application) {
         BirdDatabaseBuilder db = BirdDatabaseBuilder.getDatabase(application);
         mBirdDAO = db.birdDAO();
+        mLogDAO = db.logDAO();
     }
 
     public List<Bird> getAllBirds() {
@@ -67,5 +74,18 @@ public class Repository {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+    public void insertLog(LogEntry log) {
+        databaseExecutor.execute(() -> {
+            mLogDAO.insert(log);
+        });
+    }
+    public void insertLog(String userId, String action, String details) {
+        LogEntry log = new LogEntry();
+        log.setDateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()));
+        log.setUserId(userId);
+        log.setAction(action);
+        log.setDetails(details);
+        mLogDAO.insert(log);
     }
 }
