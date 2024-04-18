@@ -36,6 +36,7 @@ public class BirdDetails extends AppCompatActivity {
     Button editSightingDate;
     String birdLocationDescription;
     EditText editBirdLocationDescription;
+    String imagePath;
     Repository repository;
     Bird currentBird;
     private TextView dateTextView;
@@ -114,7 +115,7 @@ public class BirdDetails extends AppCompatActivity {
                 return true;
             }
 
-            Bird bird = new Bird(birdID, name, birdNotes, birdSightingDate, birdLocationDescription);
+            Bird bird = new Bird(birdID, name, birdNotes, birdSightingDate, birdLocationDescription, imagePath);
             String birdDetails = "Name: " + name + ", Notes: " + birdNotes + ", Date: " + birdSightingDate;
             if (birdID == -1) {
                 if (repository.getAllBirds().size() == 0) {

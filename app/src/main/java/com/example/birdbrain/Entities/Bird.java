@@ -11,13 +11,15 @@ public class Bird {
     private String birdNotes;
     private String birdSightingDate;
     private String birdLocationDescription;
+    private String imagePath;
 
-    public Bird(int birdID, String birdName, String birdNotes, String birdSightingDate, String birdLocationDescription) {
+    public Bird(int birdID, String birdName, String birdNotes, String birdSightingDate, String birdLocationDescription, String imagePath) {
         this.birdID = birdID;
         this.birdName = birdName;
         this.birdNotes = birdNotes;
         this.birdSightingDate = birdSightingDate;
         this.birdLocationDescription = birdLocationDescription;
+        this.imagePath = imagePath;
     }
 
     public int getBirdID() {
@@ -59,6 +61,11 @@ public class Bird {
     public void setBirdLocationDescription(String birdLocationDescription) {
         this.birdLocationDescription = birdLocationDescription;
     }
-
+    public String getImagePath() {
+        return imagePath;
+    }
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
 }
 
