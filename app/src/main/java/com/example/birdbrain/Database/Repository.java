@@ -1,6 +1,7 @@
 package com.example.birdbrain.Database;
 
 import android.app.Application;
+import android.util.Log;
 
 
 import com.example.birdbrain.DAO.BirdDAO;
@@ -20,6 +21,7 @@ public class Repository {
     private BirdDAO mBirdDAO;
     private LogDAO mLogDAO;
     private List<Bird> mAllBirds;
+    private List<LogEntry> mAllLogs;
 
     private static int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
@@ -87,5 +89,18 @@ public class Repository {
         log.setAction(action);
         log.setDetails(details);
         databaseExecutor.execute(() -> mLogDAO.insert(log));
+    }
+
+    public List<LogEntry> getAllLogs() {
+        databaseExecutor.execute(() -> {
+            mAllLogs = mLogDAO.getAllLogs();
+        });
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return mAllLogs;
     }
 }

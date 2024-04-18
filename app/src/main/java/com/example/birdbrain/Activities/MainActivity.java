@@ -5,11 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.birdbrain.Entities.LogEntry;
 import com.example.birdbrain.R;
 import com.example.birdbrain.Database.Repository;
+import com.example.birdbrain.Utilities.PDFGenerator;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     //public static int numAlert;
@@ -36,5 +41,20 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.generateReport) {
+            generatePDFReport();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void generatePDFReport() {
+        Repository repository = new Repository(getApplication());
+        List<LogEntry> logs = repository.getAllLogs(); // Make sure to fetch logs in a way that does not block the UI thread
+        PDFGenerator.generateLogReport(MainActivity.this, logs);
     }
 }
