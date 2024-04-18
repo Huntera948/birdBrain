@@ -1,6 +1,7 @@
 package com.example.birdbrain.Utilities;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.pdf.PdfDocument;
 import android.graphics.Paint;
 import android.util.Log;
@@ -15,19 +16,34 @@ public class PDFGenerator {
 
     public static void generateLogReport(Context context, List<LogEntry> logs) {
         PdfDocument document = new PdfDocument();
-        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(300, 600, 1).create();
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(600, 800, 1).create(); // Width increased to 600
         PdfDocument.Page page = document.startPage(pageInfo);
         Paint paint = new Paint();
+        paint.setTextSize(12); // Set a smaller text size if necessary
 
-        int y = 25; // vertical position for drawing text
+        int dateTimeX = 10;  // x-coordinate for Date/Time column
+        int actionX = 150;   // x-coordinate for Action column (increased space)
+        int detailsX = 350;  // x-coordinate for Details column (increased space)
+        int y = 25; // Initial vertical position
+
+        // Draw column titles
+        paint.setFakeBoldText(true); // Make title bold
+        page.getCanvas().drawText("Date/Time", dateTimeX, y, paint);
+        page.getCanvas().drawText("Action", actionX, y, paint);
+        page.getCanvas().drawText("Details", detailsX, y, paint);
+        paint.setFakeBoldText(false); // Reset bold
+
+        y += 40; // Increase this value to create more space between titles and first log entry
+
         for (LogEntry log : logs) {
-            page.getCanvas().drawText("Date/Time: " + log.getDateTime(), 10, y, paint);
-            y += 10;
-            page.getCanvas().drawText("Action: " + log.getAction(), 10, y, paint);
-            y += 10;
-            page.getCanvas().drawText("Details: " + log.getDetails(), 10, y, paint);
-            y += 40;
+            // Draw Date/Time
+            drawTextInColumn(page.getCanvas(), "Date/Time: " + log.getDateTime(), dateTimeX, y, 130, paint);
+            drawTextInColumn(page.getCanvas(), "Action: " + log.getAction(), actionX, y, 190, paint);
+            drawTextInColumn(page.getCanvas(), "Details: " + log.getDetails(), detailsX, y, 250, paint);
+
+            y += 40; // Increment y to move to the next line for the next log entry
         }
+
 
         document.finishPage(page);
 
@@ -44,12 +60,32 @@ public class PDFGenerator {
         try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
             document.writeTo(outputStream);
             Toast.makeText(context, "PDF file generated successfully in app-specific directory.", Toast.LENGTH_SHORT).show();
-            Log.e("PDFGenerator", "File: " + filePath);
+            Log.i("PDFGenerator", "File: " + filePath);
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(context, "Error in PDF creation: " + e.toString(), Toast.LENGTH_SHORT).show();
         }
 
         document.close();
+    }
+    private static void drawTextInColumn(Canvas canvas, String text, int x, int y, int maxWidth, Paint paint) {
+        if (paint.measureText(text) > maxWidth) {
+            String[] words = text.split(" ");
+            StringBuilder line1 = new StringBuilder();
+            StringBuilder line2 = new StringBuilder();
+            for (String word : words) {
+                if (paint.measureText(line1.toString() + word + " ") < maxWidth) {
+                    line1.append(word).append(" ");
+                } else {
+                    line2.append(word).append(" ");
+                }
+            }
+            canvas.drawText(line1.toString().trim(), x, y, paint);
+            if (line2.length() > 0) {
+                canvas.drawText(line2.toString().trim(), x, y + 20, paint); // Draw second line below
+            }
+        } else {
+            canvas.drawText(text, x, y, paint);
+        }
     }
 }
