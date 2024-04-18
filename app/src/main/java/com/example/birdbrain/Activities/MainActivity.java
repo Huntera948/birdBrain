@@ -49,6 +49,12 @@ public class MainActivity extends AppCompatActivity {
             generatePDFReport();
             return true;
         }
+        if (id == R.id.viewPDFLog) {
+            Intent intent = new Intent(this, PDFViewerActivity.class);
+            intent.putExtra("filePath", "MyAppLogs/logReport.pdf");  // Only the file name if it's directly in the internal storage root
+            startActivity(intent);
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 

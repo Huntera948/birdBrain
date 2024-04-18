@@ -4,4 +4,6 @@
 
     <item android:title="Generate Log Report PDF"
         android:id="@+id/generateReport"/>
+    <item android:title="View PDF Log"
+        android:id="@+id/viewPDFLog"/>
 </menu>

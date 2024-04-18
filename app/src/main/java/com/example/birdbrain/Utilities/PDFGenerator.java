@@ -31,19 +31,20 @@ public class PDFGenerator {
 
         document.finishPage(page);
 
-        // Writing the document content to an app-specific directory
-        File file = new File(context.getExternalFilesDir(null), "MyAppLogs");
-        if (!file.exists() && !file.mkdirs()) {
+        // Check and create the directory if it doesn't exist
+        File directory = new File(context.getFilesDir(), "MyAppLogs");
+        if (!directory.exists() && !directory.mkdirs()) {
             Log.e("PDFGenerator", "Failed to create directory");
-            return;  // Stop further execution if directory creation failed
+            Toast.makeText(context, "Failed to create directory", Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        String targetPdf = file.getAbsolutePath() + "/logReport.pdf";
-        File filePath = new File(targetPdf);
+        File filePath = new File(directory, "logReport.pdf");
 
         try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
             document.writeTo(outputStream);
             Toast.makeText(context, "PDF file generated successfully in app-specific directory.", Toast.LENGTH_SHORT).show();
+            Log.e("PDFGenerator", "File: " + filePath);
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(context, "Error in PDF creation: " + e.toString(), Toast.LENGTH_SHORT).show();
