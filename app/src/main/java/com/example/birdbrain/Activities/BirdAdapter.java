@@ -1,6 +1,7 @@
 package com.example.birdbrain.Activities;
 
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.birdbrain.Database.Repository;
 import com.example.birdbrain.Entities.Bird;
 import com.example.birdbrain.R;
 
@@ -23,6 +25,7 @@ public class BirdAdapter extends RecyclerView.Adapter<BirdAdapter.BirdViewHolder
         private final TextView notesItemView;
         private final TextView sightingDateItemView;
         private final TextView locationDescriptionItemView;
+        Repository repository;
 
         private BirdViewHolder(View itemView) {
             super(itemView);
@@ -42,6 +45,8 @@ public class BirdAdapter extends RecyclerView.Adapter<BirdAdapter.BirdViewHolder
                     intent.putExtra("birdSightingDate", current.getBirdSightingDate());
                     intent.putExtra("birdLocationDescription", current.getBirdLocationDescription());
                     context.startActivity(intent);
+                    Repository repository = new Repository((Application) context.getApplicationContext());
+                    repository.insertLog("User123", "View Bird Details", "Viewed details for bird: " + current.getBirdName());
                 }
             });
         }
@@ -73,6 +78,8 @@ public class BirdAdapter extends RecyclerView.Adapter<BirdAdapter.BirdViewHolder
             //holder.birdItemView.setText(name);
             String displayText = name + "\nSighting Date: " + sightingDate + "\nLocation: " + locationDescription;
             holder.birdItemView.setText(displayText);
+            Repository repository = new Repository((Application) context.getApplicationContext());
+            repository.insertLog("System", "Bind Data", "Bound data for bird: " + name + " at position: " + position);
         } else {
             holder.birdItemView.setText("No bird name");
         }

@@ -24,6 +24,7 @@ public class BirdList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bird_list);
         repository = new Repository(getApplication());
+        repository.insertLog("System", "Activity Created", "BirdList activity was created.");
         List<Bird> allBirds = repository.getAllBirds();
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         final BirdAdapter birdAdapter = new BirdAdapter(this);
@@ -45,6 +46,7 @@ public class BirdList extends AppCompatActivity {
             this.finish();
             //Intent intent=new Intent(BirdList.this, BirdDetails.class);
             //startActivity(intent);
+            repository.insertLog("User", "Navigation", "User navigated back from BirdList.");
             return true;
         }
 
@@ -60,10 +62,12 @@ public class BirdList extends AppCompatActivity {
             recyclerView.setAdapter(birdAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             birdAdapter.setBirds(allBirds);
+            repository.insertLog("User", "Sample Birds Added", "User added sample birds to the list.");
             return true;
         }
 
         if (item.getItemId() == R.id.addBird) {
+            repository.insertLog("User", "Add Bird", "User initiated adding a new bird.");
             Intent intent = new Intent(BirdList.this, BirdDetails.class);
             startActivity(intent);
             return true;
@@ -73,8 +77,8 @@ public class BirdList extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-
         super.onResume();
+        repository.insertLog("System", "Activity Resumed", "BirdList activity was resumed.");
         List<Bird> allBirds = repository.getAllBirds();
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         final BirdAdapter birdAdapter = new BirdAdapter(this);

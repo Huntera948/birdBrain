@@ -86,6 +86,6 @@ public class Repository {
         log.setUserId(userId);
         log.setAction(action);
         log.setDetails(details);
-        mLogDAO.insert(log);
+        databaseExecutor.execute(() -> mLogDAO.insert(log));
     }
 }

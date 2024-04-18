@@ -9,19 +9,24 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.birdbrain.R;
+import com.example.birdbrain.Database.Repository;
 
 public class MainActivity extends AppCompatActivity {
-    // This application uses an image by Designed by rawpixel.com / Freepik
-    public static int numAlert;
+    //public static int numAlert;
+    private Repository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        repository = new Repository(getApplication());
+
         Button button = findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                repository.insertLog("User123","Home Screen Enter","User clicked the enter button on the home screen");
                 Intent intent = new Intent(MainActivity.this, BirdList.class);
                 startActivity(intent);
             }

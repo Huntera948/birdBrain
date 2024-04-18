@@ -65,6 +65,7 @@ public class BirdDetails extends AppCompatActivity {
         editBirdLocationDescription.setText(birdLocationDescription);
         // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         repository = new Repository(getApplication());
+        repository.insertLog("System", "Activity Start", "BirdDetails activity started.");
 
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,6 +101,7 @@ public class BirdDetails extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             Intent intent = new Intent(BirdDetails.this, BirdList.class);
             startActivity(intent);
+            repository.insertLog("User", "Navigate Home", "User navigated back to BirdList from BirdDetails.");
             return true;
         }
         if (item.getItemId() == R.id.birdsave) {
@@ -113,12 +115,14 @@ public class BirdDetails extends AppCompatActivity {
             }
 
             Bird bird = new Bird(birdID, name, birdNotes, birdSightingDate, birdLocationDescription);
-
+            String birdDetails = "Name: " + name + ", Notes: " + birdNotes + ", Date: " + birdSightingDate;
             if (birdID == -1) {
                 if (repository.getAllBirds().size() == 0) {
                     birdID = 1;
+                    repository.insertLog("User", "Save New Bird", "New bird details saved: " + birdDetails);
                 } else {
                     birdID = repository.getAllBirds().get(repository.getAllBirds().size() - 1).getBirdID() + 1;
+                    repository.insertLog("User", "Update Bird", "Bird details updated: " + birdDetails);
                 }
                 bird.setBirdID(birdID);
                 repository.insert(bird);
@@ -137,6 +141,7 @@ public class BirdDetails extends AppCompatActivity {
             }
             repository.delete(currentBird);
             Toast.makeText(BirdDetails.this, currentBird.getBirdName() + " was deleted", Toast.LENGTH_LONG).show();
+            repository.insertLog("User", "Delete Bird", "Bird deleted: ID " + birdID);
             return true;
         }
         if (item.getItemId() == R.id.share) {
@@ -152,6 +157,7 @@ public class BirdDetails extends AppCompatActivity {
             sendIntent.setType("text/plain");
             Intent shareIntent = Intent.createChooser(sendIntent, "Share via");
             startActivity(shareIntent);
+            repository.insertLog("User", "Share Bird", "Bird details shared.");
             return true;
         }
         if (item.getItemId() == R.id.notify) {
@@ -187,6 +193,7 @@ public class BirdDetails extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        repository.insertLog("System", "Activity Resume", "BirdDetails activity resumed.");
         //Toast.makeText(BirdDetails.this,"refresh list",Toast.LENGTH_LONG).show();
     }
 
