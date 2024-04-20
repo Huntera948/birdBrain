@@ -2,9 +2,12 @@ package com.example.birdbrain.Activities;
 
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,22 +18,58 @@ import android.app.DatePickerDialog;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.Manifest;
 
-import com.example.birdbrain.Database.Repository;
-
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+
 
 import com.example.birdbrain.R;
 import com.example.birdbrain.Entities.Bird;
+import com.example.birdbrain.Database.Repository;
+import com.example.birdbrain.Utilities.CameraUtility;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class BirdDetails extends AppCompatActivity {
+public class BirdDetails extends AppCompatActivity implements CameraUtility.CameraActionListener {
+
+    @Override
+    public void onImageCaptured(Uri photoUri) {
+        // Assuming you have a method in your Repository to handle the saving
+        int birdId = -1;  // Use -1 or fetch the next ID from the database if adding a new bird
+        String birdName = "New Bird";  // Default name, replace with actual data if available
+        String birdNotes = "";  // Empty notes
+        String birdSightingDate = new SimpleDateFormat("MM/dd/yyyy", Locale.US).format(new Date());  // Current date
+        String birdLocationDescription = "";  // Empty location description
+        String birdImagePath = "";  // Empty or default path
+        Bird bird = new Bird(birdId, birdName, birdNotes, birdSightingDate, birdLocationDescription, birdImagePath);
+        bird.setImagePath(photoUri.toString());
+        repository.update(bird);
+        // Optionally notify the user
+        Toast.makeText(this, "Image saved successfully", Toast.LENGTH_SHORT).show();
+        // If updating an existing bird, fetch the bird details from the database
+        if (birdID != -1) {
+            bird = repository.getBirdById(birdID);
+            bird.setImagePath(photoUri.toString());  // Assuming photoUri is the URI of the newly captured image
+        }
+        repository.update(bird);
+    }
+
+
+    @Override
+    public void onError(String error) {
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+    }
+
     int birdID;
     String name;
     EditText editName;
@@ -46,11 +85,15 @@ public class BirdDetails extends AppCompatActivity {
     private TextView dateTextView;
     private Button dateButton;
     private ImageView imageViewBird;
+    private static final int REQUEST_CAMERA_PERMISSION = 1;
+    private CameraUtility cameraUtility;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bird_details);
+
+        cameraUtility = new CameraUtility(this, this);
 
         // Initialize UI components
         dateButton = findViewById(R.id.birdsightingdate);
@@ -108,8 +151,14 @@ public class BirdDetails extends AppCompatActivity {
                 datePickerDialog.show();
             }
         });
+        // Checking or requesting camera permission
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA},
+                    REQUEST_CAMERA_PERMISSION);
+        }
     }
-
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_bird_details, menu);
@@ -207,6 +256,11 @@ public class BirdDetails extends AppCompatActivity {
 //            }
             return true;
         }
+        int id = item.getItemId();
+        if (id == R.id.takebirdpicture) {
+            checkPermissionsAndTakePicture();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -223,6 +277,7 @@ public class BirdDetails extends AppCompatActivity {
         Matcher matcher = pattern.matcher(date);
         return matcher.matches();
     }
+
     private void loadImageIntoView(String imagePath) {
         // Check if the imagePath is a local file path
         File imgFile = new File(imagePath);
@@ -234,4 +289,45 @@ public class BirdDetails extends AppCompatActivity {
             Toast.makeText(this, "Image file not found", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CAMERA_PERMISSION && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            takePicture();
+        } else {
+            Toast.makeText(this, "Camera permission is necessary", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void checkPermissionsAndTakePicture() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            takePicture();
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+        }
+    }
+
+    private Uri getPhotoFileUri() {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = new File(storageDir, "JPEG_" + timeStamp + ".jpg");
+
+        return FileProvider.getUriForFile(this, "com.example.birdbrain.fileprovider", image);
+    }
+
+    private void takePicture() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            Uri photoUri = getPhotoFileUri();
+            if (photoUri != null) {
+                cameraUtility.takePicture(photoUri);
+            } else {
+                Toast.makeText(this, "Error preparing file for photo", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+        }
+    }
+
 }
