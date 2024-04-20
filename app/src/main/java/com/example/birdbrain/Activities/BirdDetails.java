@@ -52,33 +52,38 @@ public class BirdDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bird_details);
 
+        // Initialize UI components
         dateButton = findViewById(R.id.birdsightingdate);
-
-        Intent intent = getIntent();
-        name = intent.getStringExtra("name");
         editName = findViewById(R.id.birdname);
-        editName.setText(name);
-        birdID = intent.getIntExtra("id", -1);
         editNotes = findViewById(R.id.birdnotes);
-        birdNotes = intent.getStringExtra("notes");
-        editNotes = findViewById(R.id.birdnotes);
-        editNotes.setText(birdNotes);
-        birdSightingDate = intent.getStringExtra("birdSightingDate");
         editSightingDate = findViewById(R.id.birdsightingdate);
-        editSightingDate.setText(birdSightingDate);
-        birdLocationDescription = intent.getStringExtra("birdLocationDescription");
         editBirdLocationDescription = findViewById(R.id.locationdescription);
-        editBirdLocationDescription.setText(birdLocationDescription);
-
         imageViewBird = findViewById(R.id.imageViewBird);
 
-        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Intent intent = getIntent();
+        birdID = intent.getIntExtra("id", -1);
+
         repository = new Repository(getApplication());
         repository.insertLog("System", "Activity Start", "BirdDetails activity started.");
 
+        // Fetch bird details from the database
         Bird bird = repository.getBirdById(birdID);
-        if (bird.getImagePath() != null && !bird.getImagePath().isEmpty()) {
-            loadImageIntoView(bird.getImagePath());
+
+        if (bird != null) {
+            // Bird exists, populate the UI with bird details
+            editName.setText(bird.getBirdName());
+            editNotes.setText(bird.getBirdNotes());
+            editSightingDate.setText(bird.getBirdSightingDate());
+            editBirdLocationDescription.setText(bird.getBirdLocationDescription());
+            if (bird.getImagePath() != null && !bird.getImagePath().isEmpty()) {
+                loadImageIntoView(bird.getImagePath());
+            }
+        } else {
+            // No bird found, clear or set default values
+            editName.setText("");
+            editNotes.setText("");
+            editSightingDate.setText("");
+            editBirdLocationDescription.setText("");
         }
 
         dateButton.setOnClickListener(new View.OnClickListener() {
@@ -97,13 +102,14 @@ public class BirdDetails extends AppCompatActivity {
                                 selectedDate.set(year, monthOfYear, dayOfMonth);
                                 SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy", Locale.US);
                                 birdSightingDate = sdf.format(selectedDate.getTime());
-                                dateButton.setText(birdSightingDate);
+                                editSightingDate.setText(birdSightingDate);
                             }
                         }, year, month, day);
                 datePickerDialog.show();
             }
         });
     }
+
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_bird_details, menu);
