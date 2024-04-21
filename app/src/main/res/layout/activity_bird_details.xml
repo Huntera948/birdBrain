@@ -92,10 +92,10 @@
 
                 <ImageView
                     android:id="@+id/imageViewBird"
-                    android:layout_width="wrap_content"
-                    android:layout_height="200dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="fitStart" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

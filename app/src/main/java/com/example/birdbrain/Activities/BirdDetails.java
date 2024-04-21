@@ -58,6 +58,9 @@ public class BirdDetails extends AppCompatActivity implements CameraUtility.Came
         bird.setImagePath(photoUri.toString());
         repository.update(bird);
 
+        // Load and display the captured image
+        loadImageFromUri(photoUri, imageViewBird);
+
         Toast.makeText(this, "Image saved successfully", Toast.LENGTH_SHORT).show();
         Log.i("CameraUtility", "Image saved at: " + photoUri);
 
@@ -123,7 +126,8 @@ public class BirdDetails extends AppCompatActivity implements CameraUtility.Came
             editSightingDate.setText(bird.getBirdSightingDate());
             editBirdLocationDescription.setText(bird.getBirdLocationDescription());
             if (bird.getImagePath() != null && !bird.getImagePath().isEmpty()) {
-                loadImageIntoView(bird.getImagePath());
+                Uri imageUri = Uri.parse(bird.getImagePath());
+                loadImageFromUri(imageUri, imageViewBird);
             }
         } else {
             // No bird found, clear or set default values
@@ -256,15 +260,8 @@ public class BirdDetails extends AppCompatActivity implements CameraUtility.Came
     }
 
     private void loadImageIntoView(String imagePath) {
-        // Check if the imagePath is a local file path
-        File imgFile = new File(imagePath);
-        if (imgFile.exists()) {
-            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            imageViewBird.setImageBitmap(myBitmap);
-        } else {
-            // Optionally handle the case where the image is not found
-            Toast.makeText(this, "Image file not found", Toast.LENGTH_SHORT).show();
-        }
+        Uri imageUri = Uri.parse(imagePath);
+        loadImageFromUri(imageUri, imageViewBird);
     }
 
     @Override

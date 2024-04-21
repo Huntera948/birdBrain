@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:title="Save Bird"
-        android:id="@+id/birdsave"/>
-    <item android:title="Delete Bird"
-        android:id="@+id/birddelete"/>
-    <item android:title="Share Bird Details"
+    <item
+        android:id="@+id/birdsave"
+        android:title="Save Bird" />
+    <item
+        android:id="@+id/birddelete"
+        android:title="Delete Bird" />
+    <item
+        android:id="@+id/share"
         android:orderInCategory="100"
-        android:id="@+id/share"/>
-    <item android:title="Take Bird Picture"
-        android:id="@+id/takebirdpicture"/>
+        android:title="Share Bird Details" />
+    <item
+        android:id="@+id/takebirdpicture"
+        android:title="Take Bird Picture" />
 </menu>
