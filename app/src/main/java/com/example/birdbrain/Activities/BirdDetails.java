@@ -54,7 +54,8 @@ public class BirdDetails extends AppCompatActivity implements CameraUtility.Came
         String birdSightingDate = new SimpleDateFormat("MM/dd/yy", Locale.US).format(new Date());
         String birdLocationDescription = "";
         String birdImagePath = "";
-        Bird bird = new Bird(birdId, birdName, birdNotes, birdSightingDate, birdLocationDescription, birdImagePath);
+        String birdAudioPath = "";
+        Bird bird = new Bird(birdId, birdName, birdNotes, birdSightingDate, birdLocationDescription, birdImagePath, birdAudioPath);
         bird.setImagePath(photoUri.toString());
         repository.update(bird);
 
@@ -87,6 +88,7 @@ public class BirdDetails extends AppCompatActivity implements CameraUtility.Came
     String birdLocationDescription;
     EditText editBirdLocationDescription;
     String imagePath;
+    String audioPath;
     Repository repository;
     Bird currentBird;
     private TextView dateTextView;
@@ -191,7 +193,7 @@ public class BirdDetails extends AppCompatActivity implements CameraUtility.Came
                 return true;
             }
 
-            Bird bird = new Bird(birdID, name, birdNotes, birdSightingDate, birdLocationDescription, imagePath);
+            Bird bird = new Bird(birdID, name, birdNotes, birdSightingDate, birdLocationDescription, imagePath, audioPath);
             String birdDetails = "Name: " + name + ", Notes: " + birdNotes + ", Date: " + birdSightingDate;
             if (birdID == -1) {
                 if (repository.getAllBirds().size() == 0) {
@@ -218,6 +220,7 @@ public class BirdDetails extends AppCompatActivity implements CameraUtility.Came
             repository.delete(currentBird);
             Toast.makeText(BirdDetails.this, currentBird.getBirdName() + " was deleted", Toast.LENGTH_LONG).show();
             repository.insertLog("User", "Delete Bird", "Bird deleted: ID " + birdID);
+            finish();
             return true;
         }
         if (item.getItemId() == R.id.share) {
