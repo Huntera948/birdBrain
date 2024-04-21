@@ -9,8 +9,6 @@
     <item android:title="Share Bird Details"
         android:orderInCategory="100"
         android:id="@+id/share"/>
-    <item android:title="Notify"
-        android:id="@+id/notify"/>
     <item android:title="Take Bird Picture"
         android:id="@+id/takebirdpicture"/>
 </menu>

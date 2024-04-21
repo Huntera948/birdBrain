@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,6 +34,8 @@ import com.example.birdbrain.Database.Repository;
 import com.example.birdbrain.Utilities.CameraUtility;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,15 +50,17 @@ public class BirdDetails extends AppCompatActivity implements CameraUtility.Came
         // Assuming you have a method in your Repository to handle the saving
         int birdId = -1;  // Use -1 or fetch the next ID from the database if adding a new bird
         String birdName = "New Bird";  // Default name, replace with actual data if available
-        String birdNotes = "";  // Empty notes
-        String birdSightingDate = new SimpleDateFormat("MM/dd/yyyy", Locale.US).format(new Date());  // Current date
-        String birdLocationDescription = "";  // Empty location description
-        String birdImagePath = "";  // Empty or default path
+        String birdNotes = "";
+        String birdSightingDate = new SimpleDateFormat("MM/dd/yy", Locale.US).format(new Date());
+        String birdLocationDescription = "";
+        String birdImagePath = "";
         Bird bird = new Bird(birdId, birdName, birdNotes, birdSightingDate, birdLocationDescription, birdImagePath);
         bird.setImagePath(photoUri.toString());
         repository.update(bird);
-        // Optionally notify the user
+
         Toast.makeText(this, "Image saved successfully", Toast.LENGTH_SHORT).show();
+        Log.i("CameraUtility", "Image saved at: " + photoUri);
+
         // If updating an existing bird, fetch the bird details from the database
         if (birdID != -1) {
             bird = repository.getBirdById(birdID);
@@ -63,7 +68,6 @@ public class BirdDetails extends AppCompatActivity implements CameraUtility.Came
         }
         repository.update(bird);
     }
-
 
     @Override
     public void onError(String error) {
@@ -229,33 +233,6 @@ public class BirdDetails extends AppCompatActivity implements CameraUtility.Came
             repository.insertLog("User", "Share Bird", "Bird details shared.");
             return true;
         }
-        if (item.getItemId() == R.id.notify) {
-//            String myFormat = "MM/dd/yy";
-//            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-//            try {
-//                Date sightingDate = sdf.parse(birdSightingDate);
-//                Long startTrigger = sightingDate.getTime();
-//                Intent startIntent = new Intent(BirdDetails.this, MyReceiver.class);
-//                startIntent.putExtra("key", "Bird '" + name + "' is starting.");
-//                PendingIntent startSender = PendingIntent.getBroadcast(BirdDetails.this, ++MainActivity.numAlert, startIntent, PendingIntent.FLAG_IMMUTABLE);
-//                AlarmManager startAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-//                startAlarmManager.set(AlarmManager.RTC_WAKEUP, startTrigger, startSender);
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
-//            try {
-//                Date endDate = sdf.parse(birdLocationDescription);
-//                Long endTrigger = endDate.getTime();
-//                Intent endIntent = new Intent(BirdDetails.this, MyReceiver.class);
-//                endIntent.putExtra("key", "Bird '" + name + "' is ending.");
-//                PendingIntent endSender = PendingIntent.getBroadcast(BirdDetails.this, ++MainActivity.numAlert, endIntent, PendingIntent.FLAG_IMMUTABLE);
-//                AlarmManager endAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-//                endAlarmManager.set(AlarmManager.RTC_WAKEUP, endTrigger, endSender);
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
-            return true;
-        }
         int id = item.getItemId();
         if (id == R.id.takebirdpicture) {
             checkPermissionsAndTakePicture();
@@ -330,4 +307,14 @@ public class BirdDetails extends AppCompatActivity implements CameraUtility.Came
         }
     }
 
+    private void loadImageFromUri(Uri imageUri, ImageView imageView) {
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(imageUri);
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+            imageView.setImageBitmap(bitmap);
+        } catch (FileNotFoundException e) {
+            Log.e("LoadImage", "File not found", e);
+            Toast.makeText(this, "Unable to load image.", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
