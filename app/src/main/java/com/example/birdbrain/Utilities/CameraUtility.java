@@ -24,7 +24,6 @@ public class CameraUtility {
 
         void onError(String error);
     }
-
     public CameraUtility(Context context, CameraActionListener listener) {
         this.context = context;
         this.listener = listener;

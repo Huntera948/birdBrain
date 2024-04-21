@@ -211,7 +211,6 @@ public class BirdDetails extends AppCompatActivity implements CameraUtility.Came
             return true;
         }
 
-
         if (item.getItemId() == R.id.birddelete) {
             for (Bird prod : repository.getAllBirds()) {
                 if (prod.getBirdID() == birdID) currentBird = prod;

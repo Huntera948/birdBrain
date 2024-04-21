@@ -27,7 +27,13 @@
         android:theme="@style/Theme.MyBirdApp">
         <activity
             android:name=".Activities.MediaRecorderActivity"
-            android:exported="false" />
+            android:label="Media Recorder"
+            android:parentActivityName=".Activities.BirdDetails">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.BirdDetails" />
+        </activity>
+
         <activity
             android:name=".Activities.PDFViewerActivity"
             android:exported="false"
