@@ -21,10 +21,14 @@ public class MediaRecorderUtility {
     private final Context context;
     private MediaRecorderListener listener;
     private static final String TAG = MediaRecorderUtility.class.getSimpleName();
+    private Uri currentFileUri;
+
 
     public interface MediaRecorderListener {
         void onRecordingStart(Uri fileUri);
-        void onRecordingStop(String message);
+
+        void onRecordingStop(Uri fileUri);
+
         void onError(String message);
     }
 
@@ -39,14 +43,13 @@ public class MediaRecorderUtility {
             return;
         }
 
-        Uri fileUri = setupMediaRecorder();
-
-        if (fileUri != null) {
+        currentFileUri = setupMediaRecorder();
+        if (currentFileUri != null) {
             try {
                 mediaRecorder.prepare();
                 mediaRecorder.start();
                 isRecording = true;
-                listener.onRecordingStart(fileUri);
+                listener.onRecordingStart(currentFileUri);
             } catch (IOException e) {
                 Log.e(TAG, "Prepare failed", e);
                 listener.onError("Failed to start recording: " + e.getMessage());
@@ -61,7 +64,7 @@ public class MediaRecorderUtility {
             mediaRecorder.release();
             mediaRecorder = null;
             isRecording = false;
-            listener.onRecordingStop("Recording stopped and saved.");
+            listener.onRecordingStop(currentFileUri);
         }
     }
 
@@ -97,5 +100,9 @@ public class MediaRecorderUtility {
             listener.onError("Setup media recorder failed: " + e.getMessage());
             return null;
         }
+    }
+
+    public void setMediaRecorderListener(MediaRecorderListener listener) {
+        this.listener = listener;
     }
 }

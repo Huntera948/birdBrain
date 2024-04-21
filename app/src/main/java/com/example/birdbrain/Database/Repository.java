@@ -80,11 +80,13 @@ public class Repository {
             e.printStackTrace();
         }
     }
+
     public void insertLog(LogEntry log) {
         databaseExecutor.execute(() -> {
             mLogDAO.insert(log);
         });
     }
+
     public void insertLog(String userId, String action, String details) {
         LogEntry log = new LogEntry();
         log.setDateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()));
@@ -123,5 +125,18 @@ public class Repository {
             Log.e("Repository", "Error getting bird by ID", e);
             return null;
         }
+    }
+
+    public void saveOrUpdateAudioPath(int birdId, String audioPath) {
+        databaseExecutor.execute(() -> {
+            Bird bird = mBirdDAO.getBirdById(birdId);
+            if (bird != null) {
+                bird.setAudioPath(audioPath);
+                mBirdDAO.update(bird);
+            } else {
+                // Optionally handle the case where no bird matches the given ID
+                Log.e("Repository", "No bird found with ID: " + birdId);
+            }
+        });
     }
 }
