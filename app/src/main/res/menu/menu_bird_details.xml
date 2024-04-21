@@ -15,4 +15,7 @@
     <item
         android:id="@+id/takebirdpicture"
         android:title="Take Bird Picture" />
+    <item
+        android:id="@+id/recordirdcall"
+        android:title="Record Bird Call" />
 </menu>

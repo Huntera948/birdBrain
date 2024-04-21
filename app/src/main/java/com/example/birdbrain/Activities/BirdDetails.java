@@ -237,6 +237,11 @@ public class BirdDetails extends AppCompatActivity implements CameraUtility.Came
             repository.insertLog("User", "Share Bird", "Bird details shared.");
             return true;
         }
+        if (item.getItemId() == R.id.recordirdcall) {
+            Intent intent = new Intent(this, com.example.birdbrain.Activities.MediaRecorderActivity.class);
+            startActivity(intent);
+            return true;
+        }
         int id = item.getItemId();
         if (id == R.id.takebirdpicture) {
             checkPermissionsAndTakePicture();
