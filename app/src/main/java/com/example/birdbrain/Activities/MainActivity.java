@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                repository.insertLog("User123","Home Screen Login","User logged in.");
+                repository.insertLog("User","Home Screen Login","User logged in.");
                 Intent intent = new Intent(MainActivity.this, BirdList.class);
                 startActivity(intent);
                 EditText usernameEt = findViewById(R.id.username);
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         createAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                repository.insertLog("User123","RegisterActivity Navigation","User navigated to Register page.");
+                repository.insertLog("User","RegisterActivity Navigation","User navigated to Register page.");
                 Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }

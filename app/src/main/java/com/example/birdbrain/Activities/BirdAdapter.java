@@ -46,7 +46,7 @@ public class BirdAdapter extends RecyclerView.Adapter<BirdAdapter.BirdViewHolder
                     intent.putExtra("birdLocationDescription", current.getBirdLocationDescription());
                     context.startActivity(intent);
                     Repository repository = new Repository((Application) context.getApplicationContext());
-                    repository.insertLog("User123", "View Bird Details", "Viewed details for bird: " + current.getBirdName());
+                    repository.insertLog("User", "View Bird Details", "Viewed details for bird: " + current.getBirdName());
                 }
             });
         }
