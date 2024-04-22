@@ -6,9 +6,15 @@ import android.util.Log;
 
 import com.example.birdbrain.DAO.BirdDAO;
 import com.example.birdbrain.DAO.LogDAO;
+import com.example.birdbrain.DAO.UserDAO;
 import com.example.birdbrain.Entities.Bird;
 import com.example.birdbrain.Entities.LogEntry;
+import com.example.birdbrain.Entities.User;
+import com.example.birdbrain.Utilities.SecurityUtility;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +29,7 @@ public class Repository {
 
     private BirdDAO mBirdDAO;
     private LogDAO mLogDAO;
+    private UserDAO mUserDAO;
     private List<Bird> mAllBirds;
     private List<LogEntry> mAllLogs;
 
@@ -33,6 +40,7 @@ public class Repository {
         BirdDatabaseBuilder db = BirdDatabaseBuilder.getDatabase(application);
         mBirdDAO = db.birdDAO();
         mLogDAO = db.logDAO();
+        mUserDAO = db.userDAO();
     }
 
     public List<Bird> getAllBirds() {
@@ -137,5 +145,35 @@ public class Repository {
                 Log.e("Repository", "No bird found with ID: " + birdId);
             }
         });
+    }
+
+    public void registerUser(String username, String password) {
+        byte[] salt = SecurityUtility.generateSalt();
+        String hashedPassword = SecurityUtility.hashPassword(password, salt);
+        User user = new User();
+        user.username = username;
+        user.hashedPassword = hashedPassword;
+        user.salt = salt;
+        databaseExecutor.execute(() -> {
+            mUserDAO.insert(user);
+        });
+    }
+
+    // User Login
+    public boolean login(String username, String password) {
+        Future<Boolean> future = databaseExecutor.submit(() -> {
+            User user = mUserDAO.getUserByUsername(username);
+            if (user != null) {
+                String hashedInputPassword = SecurityUtility.hashPassword(password, user.salt);
+                return hashedInputPassword.equals(user.hashedPassword);
+            }
+            return false;
+        });
+        try {
+            return future.get();  // This will block until the callable completes
+        } catch (ExecutionException | InterruptedException e) {
+            Log.e("Repository", "Login error", e);
+            return false;
+        }
     }
 }

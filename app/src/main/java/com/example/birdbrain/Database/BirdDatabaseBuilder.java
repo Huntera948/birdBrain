@@ -11,14 +11,16 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.birdbrain.DAO.BirdDAO;
 import com.example.birdbrain.DAO.LogDAO;
+import com.example.birdbrain.DAO.UserDAO;
 import com.example.birdbrain.Entities.Bird;
 import com.example.birdbrain.Entities.LogEntry;
+import com.example.birdbrain.Entities.User;
 
-@Database(entities = {Bird.class, LogEntry.class}, version = 8, exportSchema = false)
+@Database(entities = {Bird.class, LogEntry.class, User.class}, version = 10, exportSchema = false)
 public abstract class BirdDatabaseBuilder extends RoomDatabase {
     public abstract BirdDAO birdDAO();
     public abstract LogDAO logDAO();
-
+    public abstract UserDAO userDAO();
     private static volatile BirdDatabaseBuilder INSTANCE;
 
     static BirdDatabaseBuilder getDatabase(final Context context) {
