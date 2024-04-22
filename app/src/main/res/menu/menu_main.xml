@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:title="Generate Log Report PDF"
-        android:id="@+id/generateReport"/>
-    <item android:title="View PDF Log"
-        android:id="@+id/viewPDFLog"/>
+    <item
+        android:id="@+id/generateReport"
+        android:textColor="@color/black"
+        android:title="Generate Log Report PDF" />
+    <item
+        android:id="@+id/viewPDFLog"
+        android:textColor="@color/black"
+        android:title="View PDF Log"
+        android:visible="false" />
 </menu>

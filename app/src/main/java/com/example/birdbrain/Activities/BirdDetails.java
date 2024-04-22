@@ -159,6 +159,7 @@ public class BirdDetails extends AppCompatActivity implements CameraUtility.Came
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(BirdDetails.this,
+                        android.R.style.Theme_Holo_Dialog_NoActionBar_MinWidth,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -235,6 +236,10 @@ public class BirdDetails extends AppCompatActivity implements CameraUtility.Came
             return true;
         }
         if (item.getItemId() == R.id.share) {
+            name = editName.getText().toString();
+            birdNotes = editNotes.getText().toString();
+            birdSightingDate = editSightingDate.getText().toString();
+            birdLocationDescription = editBirdLocationDescription.getText().toString();
             String birdDetails = "Bird Details:\n" +
                     "Name: " + name + "\n" +
                     "Notes: " + birdNotes + "\n" +

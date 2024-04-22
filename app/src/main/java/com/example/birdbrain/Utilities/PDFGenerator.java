@@ -59,7 +59,7 @@ public class PDFGenerator {
 
         try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
             document.writeTo(outputStream);
-            Toast.makeText(context, "PDF file generated successfully in app-specific directory.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "PDF file generated successfully.", Toast.LENGTH_SHORT).show();
             Log.i("PDFGenerator", "File: " + filePath);
         } catch (IOException e) {
             e.printStackTrace();

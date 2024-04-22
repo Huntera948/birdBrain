@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:title="Add Sample Bird Data"
-        android:id="@+id/addSampleBirds"/>
-    <item android:title="Add Bird"
-        android:id="@+id/addBird"/>
+    <item
+        android:id="@+id/addSampleBirds"
+        android:textColor="@color/black"
+        android:title="Add Sample Bird Data" />
+    <item
+        android:id="@+id/addBird"
+        android:textColor="@color/black"
+        android:title="Add Bird" />
 </menu>

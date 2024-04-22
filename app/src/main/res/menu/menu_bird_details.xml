@@ -4,18 +4,23 @@
 
     <item
         android:id="@+id/birdsave"
+        android:textColor="@color/black"
         android:title="Save Bird" />
     <item
         android:id="@+id/birddelete"
+        android:textColor="@color/black"
         android:title="Delete Bird" />
     <item
         android:id="@+id/share"
         android:orderInCategory="100"
+        android:textColor="@color/black"
         android:title="Share Bird Details" />
     <item
         android:id="@+id/takebirdpicture"
+        android:textColor="@color/black"
         android:title="Take Bird Picture" />
     <item
         android:id="@+id/recordirdcall"
+        android:textColor="@color/black"
         android:title="Record Bird Call" />
 </menu>
