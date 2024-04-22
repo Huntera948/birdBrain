@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -35,6 +36,7 @@ import com.example.birdbrain.Utilities.CameraUtility;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -96,6 +98,9 @@ public class BirdDetails extends AppCompatActivity implements CameraUtility.Came
     private ImageView imageViewBird;
     private static final int REQUEST_CAMERA_PERMISSION = 1;
     private CameraUtility cameraUtility;
+    private MediaPlayer mediaPlayer;
+    private Button playButton;
+    private Button stopButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +116,12 @@ public class BirdDetails extends AppCompatActivity implements CameraUtility.Came
         editSightingDate = findViewById(R.id.birdsightingdate);
         editBirdLocationDescription = findViewById(R.id.locationdescription);
         imageViewBird = findViewById(R.id.imageViewBird);
+
+        playButton = findViewById(R.id.button_play);
+        stopButton = findViewById(R.id.button_stop);
+
+        playButton.setOnClickListener(v -> playAudio());
+        stopButton.setOnClickListener(v -> stopAudio());
 
         Intent intent = getIntent();
         birdID = intent.getIntExtra("id", -1);
@@ -323,6 +334,45 @@ public class BirdDetails extends AppCompatActivity implements CameraUtility.Came
         } catch (FileNotFoundException e) {
             Log.e("LoadImage", "File not found", e);
             Toast.makeText(this, "Unable to load image.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void playAudio() {
+        if (mediaPlayer == null) {
+            mediaPlayer = new MediaPlayer();
+            try {
+                Bird bird = repository.getBirdById(birdID);
+                String audioUriString = bird.getAudioPath();
+                if (audioUriString != null && !audioUriString.isEmpty()) {
+                    Uri audioUri = Uri.parse(audioUriString);
+                    mediaPlayer.setDataSource(getApplicationContext(), audioUri);
+                    mediaPlayer.prepare(); // might take long! (for buffering, etc)
+                    mediaPlayer.start();
+                    stopButton.setVisibility(View.VISIBLE);
+                    Toast.makeText(this, "Playing audio...", Toast.LENGTH_SHORT).show();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Unable to play audio", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void stopAudio() {
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
+            stopButton.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
         }
     }
 }
