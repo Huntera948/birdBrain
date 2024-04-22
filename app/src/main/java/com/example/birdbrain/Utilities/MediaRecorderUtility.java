@@ -79,7 +79,7 @@ public class MediaRecorderUtility {
         }
 
         File audioFile = new File(storageDir, audioFileName);
-        Uri audioFileUri = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider", audioFile);
+        Uri audioFileUri = FileProvider.getUriForFile(context, "com.example.birdbrain.fileprovider", audioFile);
 
         try {
             ParcelFileDescriptor pfd = context.getContentResolver().openFileDescriptor(audioFileUri, "w");

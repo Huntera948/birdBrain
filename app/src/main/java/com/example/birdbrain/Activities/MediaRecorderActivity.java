@@ -47,11 +47,8 @@ public class MediaRecorderActivity extends AppCompatActivity implements MediaRec
         startButton = findViewById(R.id.startRecordingButton);
         stopButton = findViewById(R.id.stopRecordingButton);
 
-        // Assuming you have a way to obtain a birdId, possibly passed via Intent
-        birdID = getIntent().getIntExtra("birdID", -1);  // Corrected from "BIRD_ID" to "birdID" for consistency
-
         repository = new Repository(getApplication());
-        recorderUtility = new MediaRecorderUtility(this,this);
+        recorderUtility = new MediaRecorderUtility(this, this);
         birdID = getIntent().getIntExtra("id", -1);
 
         recorderUtility.setMediaRecorderListener(new MediaRecorderUtility.MediaRecorderListener() {
@@ -92,10 +89,19 @@ public class MediaRecorderActivity extends AppCompatActivity implements MediaRec
         });
     }
 
+    private void checkPermissionsAndStartRecording() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, PERMISSION_CODE);
+        } else {
+            recorderUtility.startRecording();
+            startButton.setEnabled(false);
+            stopButton.setEnabled(true);
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
+        if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
         }
@@ -104,13 +110,17 @@ public class MediaRecorderActivity extends AppCompatActivity implements MediaRec
 
     @Override
     public void onRecordingStart(Uri fileUri) {
-        statusTextView.setText("Status: Recording... File Path: " + fileUri.toString());
+        statusTextView.setText("Status: Recording...");
+        Toast.makeText(MediaRecorderActivity.this, "File saved at: " + fileUri.toString(), Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onRecordingStop(Uri fileUri) {
-        statusTextView.setText("Status: Recording Stopped. File saved at: " + fileUri.toString());
-        saveRecordingPath(fileUri.toString());
+        runOnUiThread(() -> {
+            statusTextView.setText("Status: Recording Stopped.");
+            Toast.makeText(MediaRecorderActivity.this, "File saved at: " + fileUri.toString(), Toast.LENGTH_LONG).show();
+            repository.saveOrUpdateAudioPath(birdID, fileUri.toString());
+        });
     }
 
     @Override
@@ -124,6 +134,7 @@ public class MediaRecorderActivity extends AppCompatActivity implements MediaRec
         // Assuming Repository has a method to save or update the path in your database
         repository.saveOrUpdateAudioPath(birdID, filePath);
     }
+
     private void checkPermissions() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, PERMISSION_CODE);
@@ -131,6 +142,7 @@ public class MediaRecorderActivity extends AppCompatActivity implements MediaRec
             recorderUtility.startRecording();
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

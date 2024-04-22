@@ -134,7 +134,6 @@ public class Repository {
                 bird.setAudioPath(audioPath);
                 mBirdDAO.update(bird);
             } else {
-                // Optionally handle the case where no bird matches the given ID
                 Log.e("Repository", "No bird found with ID: " + birdId);
             }
         });
