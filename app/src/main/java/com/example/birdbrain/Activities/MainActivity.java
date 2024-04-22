@@ -28,11 +28,11 @@ public class MainActivity extends AppCompatActivity {
 
         repository = new Repository(getApplication());
 
-        Button button = findViewById(R.id.loginButton);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button loginButton = findViewById(R.id.loginButton);
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                repository.insertLog("User123","Home Screen Enter","User clicked the enter button on the home screen");
+                repository.insertLog("User123","Home Screen Login","User logged in.");
                 Intent intent = new Intent(MainActivity.this, BirdList.class);
                 startActivity(intent);
                 EditText usernameEt = findViewById(R.id.username);
@@ -40,6 +40,15 @@ public class MainActivity extends AppCompatActivity {
                 String username = usernameEt.getText().toString();
                 String password = passwordEt.getText().toString();
                 login(username, password);
+            }
+        });
+        Button createAccount = findViewById(R.id.createAccount);
+        createAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                repository.insertLog("User123","RegisterActivity Navigation","User navigated to Register page.");
+                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                startActivity(intent);
             }
         });
     }

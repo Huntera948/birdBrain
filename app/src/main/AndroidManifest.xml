@@ -26,6 +26,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".Activities.RegisterActivity"
+            android:exported="false"
+            android:parentActivityName=".Activities.MainActivity" />
+        <activity
             android:name=".Activities.MediaRecorderActivity"
             android:label="Media Recorder"
             android:parentActivityName=".Activities.BirdDetails">
@@ -33,7 +37,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.BirdDetails" />
         </activity>
-
         <activity
             android:name=".Activities.PDFViewerActivity"
             android:exported="false"
