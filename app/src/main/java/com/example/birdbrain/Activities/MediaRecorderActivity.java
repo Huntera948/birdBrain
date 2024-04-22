@@ -54,14 +54,15 @@ public class MediaRecorderActivity extends AppCompatActivity implements MediaRec
         recorderUtility.setMediaRecorderListener(new MediaRecorderUtility.MediaRecorderListener() {
             @Override
             public void onRecordingStart(Uri fileUri) {
-                runOnUiThread(() -> statusTextView.setText("Status: Recording... File Path: " + fileUri.toString()));
+                runOnUiThread(() -> statusTextView.setText("Status: Recording..."));
             }
 
             @Override
             public void onRecordingStop(Uri fileUri) {
                 runOnUiThread(() -> {
-                    statusTextView.setText("Status: Recording Stopped. File saved at: " + fileUri.toString());
+                    statusTextView.setText("Status: Recording Stopped.");
                     repository.saveOrUpdateAudioPath(birdID, fileUri.toString());
+                    Toast.makeText(MediaRecorderActivity.this, "File saved!", Toast.LENGTH_SHORT).show();
                 });
             }
 

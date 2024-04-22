@@ -141,7 +141,6 @@ public class BirdDetails extends AppCompatActivity implements CameraUtility.Came
             if (bird.getImagePath() != null && !bird.getImagePath().isEmpty()) {
                 Uri imageUri = Uri.parse(bird.getImagePath());
                 loadImageFromUri(imageUri, imageViewBird);
-                playButton.setVisibility(View.VISIBLE);
             }
         } else {
             // No bird found, clear or set default values
@@ -275,11 +274,12 @@ public class BirdDetails extends AppCompatActivity implements CameraUtility.Came
 
     @Override
     protected void onResume() {
-        super.onResume();
         repository.insertLog("System", "Activity Resume", "BirdDetails activity resumed.");
         //Toast.makeText(BirdDetails.this,"refresh list",Toast.LENGTH_LONG).show();
         Bird updatedBird = repository.getBirdById(birdID);
-        updatePlayButtonVisibility(updatedBird.getAudioPath());
+        if (birdID != -1)
+            updatePlayButtonVisibility(updatedBird.getAudioPath());
+        super.onResume();
     }
 
     private boolean isValidDateFormat(String date) {

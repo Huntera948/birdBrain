@@ -39,7 +39,7 @@ public class MediaRecorderUtility {
 
     public void startRecording() {
         if (isRecording) {
-            listener.onError("Recording is already in progress");
+            listener.onError("Recording in progress");
             return;
         }
 
