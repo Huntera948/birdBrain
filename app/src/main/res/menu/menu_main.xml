@@ -9,6 +9,5 @@
     <item
         android:id="@+id/viewPDFLog"
         android:textColor="@color/black"
-        android:title="View PDF Log"
-        android:visible="false" />
+        android:title="View Log Report PDF" />
 </menu>

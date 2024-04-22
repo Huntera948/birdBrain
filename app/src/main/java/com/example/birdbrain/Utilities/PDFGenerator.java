@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.pdf.PdfDocument;
 import android.graphics.Paint;
+import android.graphics.Color;
 import android.util.Log;
 import android.widget.Toast;
 import com.example.birdbrain.Entities.LogEntry;
@@ -19,7 +20,8 @@ public class PDFGenerator {
         PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(600, 800, 1).create(); // Width increased to 600
         PdfDocument.Page page = document.startPage(pageInfo);
         Paint paint = new Paint();
-        paint.setTextSize(12); // Set a smaller text size if necessary
+        paint.setColor(Color.BLACK); // white looked weird for some reason
+        paint.setTextSize(12);
 
         int dateTimeX = 10;  // x-coordinate for Date/Time column
         int actionX = 150;   // x-coordinate for Action column (increased space)
