@@ -141,6 +141,7 @@ public class BirdDetails extends AppCompatActivity implements CameraUtility.Came
             if (bird.getImagePath() != null && !bird.getImagePath().isEmpty()) {
                 Uri imageUri = Uri.parse(bird.getImagePath());
                 loadImageFromUri(imageUri, imageViewBird);
+                playButton.setVisibility(View.VISIBLE);
             }
         } else {
             // No bird found, clear or set default values
@@ -277,10 +278,15 @@ public class BirdDetails extends AppCompatActivity implements CameraUtility.Came
         super.onResume();
         repository.insertLog("System", "Activity Resume", "BirdDetails activity resumed.");
         //Toast.makeText(BirdDetails.this,"refresh list",Toast.LENGTH_LONG).show();
+        Bird updatedBird = repository.getBirdById(birdID);
+        updatePlayButtonVisibility(updatedBird.getAudioPath());
     }
 
     private boolean isValidDateFormat(String date) {
-        String regex = "\\d{2}/\\d{2}/\\d{2}"; // MM/dd/yy format
+        if (date == null) {
+            return false;  // Immediately return false if the date is null
+        }
+        String regex = "\\d{2}/\\d{2}/\\d{2}";  // MM/dd/yy format
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(date);
         return matcher.matches();
@@ -378,6 +384,13 @@ public class BirdDetails extends AppCompatActivity implements CameraUtility.Came
         if (mediaPlayer != null) {
             mediaPlayer.release();
             mediaPlayer = null;
+        }
+    }
+    private void updatePlayButtonVisibility(String audioPath) {
+        if (audioPath != null && !audioPath.trim().isEmpty()) {
+            playButton.setVisibility(View.VISIBLE);
+        } else {
+            playButton.setVisibility(View.GONE);
         }
     }
 }
